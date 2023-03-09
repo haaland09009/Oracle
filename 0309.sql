@@ -1,6 +1,8 @@
+
 -- deptno 10번 회계팀, 20번 연구소, 30번 영업팀, 기타 운영팀
 select ename, job, deptno, case deptno when 10 then '회계팀' when 20 then '연구소' when 30 then '영업팀'
  else '운영팀' end 부서명 from emp;
+ 
  -- 위와 똑같은 결과 출력
 select ename, job, deptno, decode(deptno, 10,'회계팀',20,'연구소',30,'영업팀','운영팀') 부서명 from emp;
  
