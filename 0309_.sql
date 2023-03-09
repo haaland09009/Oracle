@@ -1,4 +1,4 @@
-
+-- deptno 10번 회계팀, 20번 연구소, 30번 영업팀, 기타 운영팀
 select ename, job, deptno, case deptno when 10 then '회계팀' when 20 then '연구소' when 30 then '영업팀'
  else '운영팀' end 부서명 from emp;
  -- 위와 똑같은 결과 출력
@@ -13,7 +13,9 @@ extract(day from hiredate) from emp;
 -- 2월에 입사한 사람
 select * from emp where extract(month from hiredate) = 02;
 select * from emp where to_char(hiredate, 'mm') = 02;
+
 -------------------------------------------------------------------------------------------------------------
+
 --1. 현재 날짜를 출력하고 열 레이블은 Current Date로 출력하는 SELECT 문장을 기술하시오.
 --2. EMP 테이블에서 현재 급여에 15%가 증가된 급여를 사원번호,이름,업무,급여,증가된 급여(New Salary),증가액(Increase)를
 --출력하는 SELECT 문장을 기술하시오.
@@ -58,10 +60,13 @@ select ename, job, sal, comm, nvl(sal+comm, 0) from emp;
 --6. 사원 테이블에서 급여에 따라 사번, 이름, 급여, 등급을 검색하는 SQL문장을 작성 (case, decode) 
 --급여 등급
 --0 ~ 999 E    1000 ~ 1999 D    2000 ~ 2999 C   3000 ~ 3999 B   4000 이상 A
+
 --7. EMP 테이블에서 다음의 결과가 출력되도록 작성하시오.
 --Sal의 값이 3배가 되도록 출력
 --Dream Salary
+
 --------------------------------------------------------------
+
 --KING earns $5,000.00 monthly but wants $15,000.00
 --BLAKE earns $2,850.00 monthly but wants $8,550.00
 --CLARK earns $2,450.00 monthly but wants $7,350.00
@@ -98,7 +103,9 @@ when sal between 2000 and 2999 then 'C' when sal between 3000 and 3999 then 'B' 
 --7. EMP 테이블에서 다음의 결과가 출력되도록 작성하시오.
 --Sal의 값이 3배가 되도록 출력
 --Dream Salary
+
 --------------------------------------------------------------
+
 --KING earns $5,000.00 monthly but wants $15,000.00
 --BLAKE earns $2,850.00 monthly but wants $8,550.00
 --CLARK earns $2,450.00 monthly but wants $7,350.00
@@ -113,7 +120,9 @@ select empno, ename, sal, case trunc((sal-1)/1000) when 0 then 'E' when 1 then '
 when 3 then 'B' else 'A' end 등급 from emp;
 
 select empno, ename, sal, decode(trunc((sal-1)/1000),0,'E',1,'D',2,'C',3,'B','A') 등급 from emp;
+
 --------------------------------------------------------------
+
                          -- king부터 시작             king사번  상대방 관리자 사번
 select ename from emp start with mgr is null connect by prior empno = mgr;
 -- top -> down left -> right
@@ -133,6 +142,7 @@ select lpad(ename, length(ename)+(level*3)-3, ' ') 이름 from emp where ename !
 connect by prior empno = mgr;
 
 --------------------------------------------------------------------
+
 -- 조인 면접에서 많이 물어봄
 select * from emp;
 select empno, ename, job, dname, loc from emp, dept where emp.deptno = dept.deptno;
@@ -145,7 +155,9 @@ select empno, ename, job, e.deptno, dname, loc from emp e, dept d where e.deptno
 
 -- 카티션 프로덕트 , cross join   총 경우의 수 출력 -- 14 x 4 = 56
 select empno, ename, job, e.deptno, dname, loc from emp e, dept d;  
+
 --------------------------------------------------------------------
+
 --1. 사번, 이름, 업무, 입사일, 부서명
 --2. 이름, 업무, 입사일, 부서명, 근무지 81년 입사만
 --3. 이름, 업무, 입사일, 부서코드, 부서명, comm이 null
