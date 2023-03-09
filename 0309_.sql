@@ -95,7 +95,7 @@ select empno, ename, sal, decode(trunc(sal/1000),0,'E',1,'D',2,'C',3,'B','A') �
 select empno, ename, sal, case when sal between 0 and 999 then 'E' when sal between 1000 and 1999 then 'D' 
 when sal between 2000 and 2999 then 'C' when sal between 3000 and 3999 then 'B' else 'A' end 등급 from emp;
 
-----7. EMP 테이블에서 다음의 결과가 출력되도록 작성하시오.
+--7. EMP 테이블에서 다음의 결과가 출력되도록 작성하시오.
 --Sal의 값이 3배가 되도록 출력
 --Dream Salary
 --------------------------------------------------------------
