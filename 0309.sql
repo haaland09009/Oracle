@@ -1,4 +1,5 @@
 
+-- deptno 10번 회계팀, 20번 연구소, 30번 영업팀, 기타 운영팀
 select ename, job, deptno, case deptno when 10 then '회계팀' when 20 then '연구소' when 30 then '영업팀'
  else '운영팀' end 부서명 from emp;
  -- 위와 똑같은 결과 출력
@@ -117,7 +118,9 @@ select empno, ename, sal, case trunc((sal-1)/1000) when 0 then 'E' when 1 then '
 when 3 then 'B' else 'A' end 등급 from emp;
 
 select empno, ename, sal, decode(trunc((sal-1)/1000),0,'E',1,'D',2,'C',3,'B','A') 등급 from emp;
+
 --------------------------------------------------------------
+
                          -- king부터 시작             king사번  상대방 관리자 사번
 select ename from emp start with mgr is null connect by prior empno = mgr;
 -- top -> down left -> right
@@ -136,6 +139,7 @@ and ename != 'FORD';
 select lpad(ename, length(ename)+(level*3)-3, ' ') 이름 from emp where ename != 'FORD' start with ename='KING' connect by prior empno = mgr;
 
 --------------------------------------------------------------------
+
 --- 조인 면접에서 많이 물어봄
 select * from emp;
 select empno, ename, job, dname, loc from emp, dept where emp.deptno = dept.deptno;
@@ -148,7 +152,9 @@ select empno, ename, job, e.deptno, dname, loc from emp e, dept d where e.deptno
 
 -- 카티션 프로덕트 , cross join   총 경우의 수 출력 -- 14 x 4 = 56
 select empno, ename, job, e.deptno, dname, loc from emp e, dept d;  
+
 --------------------------------------------------------------------
+
 --1. 사번, 이름, 업무, 입사일, 부서명
 --2. 이름, 업무, 입사일, 부서명, 근무지 81년 입사만
 --3. 이름, 업무, 입사일, 부서코드, 부서명, comm이 null
