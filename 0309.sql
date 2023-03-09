@@ -1,104 +1,106 @@
--- deptno 10¹ø È¸°èÆÀ, 20¹ø ¿¬±¸¼Ò, 30¹ø ¿µ¾÷ÆÀ, ±âÅ¸ ¿î¿µÆÀ
-select ename, job, deptno, case deptno when 10 then 'È¸°èÆÀ' when 20 then '¿¬±¸¼Ò' when 30 then '¿µ¾÷ÆÀ'
- else '¿î¿µÆÀ' end ºÎ¼­¸í from emp;
- -- À§¿Í ¶È°°Àº °á°ú Ãâ·Â
-select ename, job, deptno, decode(deptno, 10,'È¸°èÆÀ',20,'¿¬±¸¼Ò',30,'¿µ¾÷ÆÀ','¿î¿µÆÀ') ºÎ¼­¸í from emp;
+-- deptno 10ë²ˆ íšŒê³„íŒ€, 20ë²ˆ ì—°êµ¬ì†Œ, 30ë²ˆ ì˜ì—…íŒ€, ê¸°íƒ€ ìš´ì˜íŒ€
+select ename, job, deptno, case deptno when 10 then 'íšŒê³„íŒ€' when 20 then 'ì—°êµ¬ì†Œ' when 30 then 'ì˜ì—…íŒ€'
+ else 'ìš´ì˜íŒ€' end ë¶€ì„œëª… from emp;
+ -- ìœ„ì™€ ë˜‘ê°™ì€ ê²°ê³¼ ì¶œë ¥
+select ename, job, deptno, decode(deptno, 10,'íšŒê³„íŒ€',20,'ì—°êµ¬ì†Œ',30,'ì˜ì—…íŒ€','ìš´ì˜íŒ€') ë¶€ì„œëª… from emp;
  
- -- ÁßÃ¸ÇÔ¼ö
+ -- ì¤‘ì²©í•¨ìˆ˜
 select deptno, dname, rpad(rtrim(dname, 'G'),10,'*') from dept;
 
 select ename, sal, hiredate, extract(year from hiredate), extract(month from hiredate),
 extract(day from hiredate) from emp;
 
--- 2¿ù¿¡ ÀÔ»çÇÑ »ç¶÷
+-- 2ì›”ì— ì…ì‚¬í•œ ì‚¬ëŒ
 select * from emp where extract(month from hiredate) = 02;
 select * from emp where to_char(hiredate, 'mm') = 02;
 -------------------------------------------------------------------------------------------------------------
---1. ÇöÀç ³¯Â¥¸¦ Ãâ·ÂÇÏ°í ¿­ ·¹ÀÌºíÀº Current Date·Î Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---2. EMP Å×ÀÌºí¿¡¼­ ÇöÀç ±Ş¿©¿¡ 15%°¡ Áõ°¡µÈ ±Ş¿©¸¦ »ç¿ø¹øÈ£,ÀÌ¸§,¾÷¹«,±Ş¿©,Áõ°¡µÈ ±Ş¿©(New Salary),Áõ°¡¾×(Increase)¸¦
---Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---3. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§,ÀÔ»çÀÏ,ÀÔ»çÀÏ·ÎºÎÅÍ 6°³¿ù ÈÄ µ¹¾Æ¿À´Â ¿ù¿äÀÏ ±¸ÇÏ¿© Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---4. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§,ÀÔ»çÀÏ, ÀÔ»çÀÏ·ÎºÎÅÍ ÇöÀç±îÁöÀÇ ¿ù¼ö,±Ş¿©, ÀÔ»çÀÏºÎÅÍ ÇöÀç±îÁöÀÇ ±Ş¿©ÀÇ ÃÑ°è¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---5. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ±Ş¿©(15ÀÚ¸®·Î Ãâ·Â ÁÂÃøÀÇ ºó°÷Àº ¡°*¡±·Î ´ëÄ¡)¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---6. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,ÀÔ»çÀÏ,ÀÔ»çÇÑ ¿äÀÏÀ» Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---7. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§ÀÇ ±æÀÌ°¡ 6ÀÚ ÀÌ»óÀÎ »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,ÀÌ¸§ÀÇ ±ÛÀÚ¼ö,¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
---8. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,±Ş¿©,º¸³Ê½º,±Ş¿©+º¸³Ê½º¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À
+
+--1. í˜„ì¬ ë‚ ì§œë¥¼ ì¶œë ¥í•˜ê³  ì—´ ë ˆì´ë¸”ì€ Current Dateë¡œ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--2. EMP í…Œì´ë¸”ì—ì„œ í˜„ì¬ ê¸‰ì—¬ì— 15%ê°€ ì¦ê°€ëœ ê¸‰ì—¬ë¥¼ ì‚¬ì›ë²ˆí˜¸,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì¦ê°€ëœ ê¸‰ì—¬(New Salary),ì¦ê°€ì•¡(Increase)ë¥¼
+--ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--3. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„,ì…ì‚¬ì¼,ì…ì‚¬ì¼ë¡œë¶€í„° 6ê°œì›” í›„ ëŒì•„ì˜¤ëŠ” ì›”ìš”ì¼ êµ¬í•˜ì—¬ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--4. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„,ì…ì‚¬ì¼, ì…ì‚¬ì¼ë¡œë¶€í„° í˜„ì¬ê¹Œì§€ì˜ ì›”ìˆ˜,ê¸‰ì—¬, ì…ì‚¬ì¼ë¶€í„° í˜„ì¬ê¹Œì§€ì˜ ê¸‰ì—¬ì˜ ì´ê³„ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--5. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ê¸‰ì—¬(15ìë¦¬ë¡œ ì¶œë ¥ ì¢Œì¸¡ì˜ ë¹ˆê³³ì€ â€œ*â€ë¡œ ëŒ€ì¹˜)ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--6. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ì…ì‚¬ì¼,ì…ì‚¬í•œ ìš”ì¼ì„ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--7. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„ì˜ ê¸¸ì´ê°€ 6ì ì´ìƒì¸ ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì´ë¦„ì˜ ê¸€ììˆ˜,ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+--8. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ë³´ë„ˆìŠ¤,ê¸‰ì—¬+ë³´ë„ˆìŠ¤ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤
 
 
---1. ÇöÀç ³¯Â¥¸¦ Ãâ·ÂÇÏ°í ¿­ ·¹ÀÌºíÀº Current Date·Î Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
+--1. í˜„ì¬ ë‚ ì§œë¥¼ ì¶œë ¥í•˜ê³  ì—´ ë ˆì´ë¸”ì€ Current Dateë¡œ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
 select sysdate "Current Date" from dual;
 
---2. EMP Å×ÀÌºí¿¡¼­ ÇöÀç ±Ş¿©¿¡ 15%°¡ Áõ°¡µÈ ±Ş¿©¸¦ »ç¿ø¹øÈ£,ÀÌ¸§,¾÷¹«,±Ş¿©,Áõ°¡µÈ ±Ş¿©(New Salary),Áõ°¡¾×(Increase)¸¦
---Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
+--2. EMP í…Œì´ë¸”ì—ì„œ í˜„ì¬ ê¸‰ì—¬ì— 15%ê°€ ì¦ê°€ëœ ê¸‰ì—¬ë¥¼ ì‚¬ì›ë²ˆí˜¸,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì¦ê°€ëœ ê¸‰ì—¬(New Salary),ì¦ê°€ì•¡(Increase)ë¥¼
+--ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
 select empno, ename, job, sal, sal*1.15 "New Salary", sal*0.15 Increase from emp;
 
---3. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§,ÀÔ»çÀÏ,ÀÔ»çÀÏ·ÎºÎÅÍ 6°³¿ù ÈÄ µ¹¾Æ¿À´Â ¿ù¿äÀÏ ±¸ÇÏ¿© Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
-select ename, hiredate, next_day(add_months(hiredate, 6), '¿ù') from emp;
+--3. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„,ì…ì‚¬ì¼,ì…ì‚¬ì¼ë¡œë¶€í„° 6ê°œì›” í›„ ëŒì•„ì˜¤ëŠ” ì›”ìš”ì¼ êµ¬í•˜ì—¬ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+select ename, hiredate, next_day(add_months(hiredate, 6), 'ì›”') from emp;
 
---4. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§,ÀÔ»çÀÏ, ÀÔ»çÀÏ·ÎºÎÅÍ ÇöÀç±îÁöÀÇ ¿ù¼ö,±Ş¿©, ÀÔ»çÀÏºÎÅÍ ÇöÀç±îÁöÀÇ ±Ş¿©ÀÇ ÃÑ°è¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
-select ename, hiredate, round(months_between(sysdate, hiredate)) ¿ù¼ö, sal, 
-sal * round(months_between(sysdate, hiredate)) ±Ş¿©ÃÑ°è from emp;
+--4. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„,ì…ì‚¬ì¼, ì…ì‚¬ì¼ë¡œë¶€í„° í˜„ì¬ê¹Œì§€ì˜ ì›”ìˆ˜,ê¸‰ì—¬, ì…ì‚¬ì¼ë¶€í„° í˜„ì¬ê¹Œì§€ì˜ ê¸‰ì—¬ì˜ ì´ê³„ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
+select ename, hiredate, round(months_between(sysdate, hiredate)) ì›”ìˆ˜, sal, 
+sal * round(months_between(sysdate, hiredate)) ê¸‰ì—¬ì´ê³„ from emp;
 
---5. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ±Ş¿©(15ÀÚ¸®·Î Ãâ·Â ÁÂÃøÀÇ ºó°÷Àº ¡°*¡±·Î ´ëÄ¡)¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
+--5. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ê¸‰ì—¬(15ìë¦¬ë¡œ ì¶œë ¥ ì¢Œì¸¡ì˜ ë¹ˆê³³ì€ â€œ*â€ë¡œ ëŒ€ì¹˜)ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
 select ename, sal, lpad(sal, 15, '#') from emp;
 
---6. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,ÀÔ»çÀÏ,ÀÔ»çÇÑ ¿äÀÏÀ» Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
+--6. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ì…ì‚¬ì¼,ì…ì‚¬í•œ ìš”ì¼ì„ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
 select ename, job, hiredate, to_char(hiredate, 'day') from emp;
 
---7. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§ÀÇ ±æÀÌ°¡ 6ÀÚ ÀÌ»óÀÎ »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,ÀÌ¸§ÀÇ ±ÛÀÚ¼ö,¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À.
+--7. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„ì˜ ê¸¸ì´ê°€ 6ì ì´ìƒì¸ ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì´ë¦„ì˜ ê¸€ììˆ˜,ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤.
 select ename, length(ename), job from emp where length(ename) >= 6;
 
---8. EMP Å×ÀÌºí¿¡¼­ ¸ğµç »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,±Ş¿©,º¸³Ê½º,±Ş¿©+º¸³Ê½º¸¦ Ãâ·ÂÇÏ´Â SELECT ¹®ÀåÀ» ±â¼úÇÏ½Ã¿À
+--8. EMP í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ë³´ë„ˆìŠ¤,ê¸‰ì—¬+ë³´ë„ˆìŠ¤ë¥¼ ì¶œë ¥í•˜ëŠ” SELECT ë¬¸ì¥ì„ ê¸°ìˆ í•˜ì‹œì˜¤
 select ename, job, sal, comm, nvl(sal+comm, 0) from emp;
 
---1. »ç¿ø Å×ÀÌºíÀÇ »ç¿ø¸í¿¡¼­ 2¹øÂ° ¹®ÀÚºÎÅÍ 3°³ÀÇ ¹®ÀÚ¸¦ ÃßÃâÇÏ½Ã¿À.
---2. »ç¿ø Å×ÀÌºí¿¡¼­ ÀÔ»çÀÏÀÌ 12¿ùÀÎ »ç¿øÀÇ »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏÀ» °Ë»öÇÏ½Ã¿À.
---3. »ç¹ø, ÀÌ¸§, ±Ş¿©(10ÀÚ¸® ¿ŞÂÊ¿¡ *)
---4. »ç¹ø, ÀÌ¸§, ÀÔ»çÀÏ ³â4-¿ù-ÀÏ
---6. »ç¿ø Å×ÀÌºí¿¡¼­ ±Ş¿©¿¡ µû¶ó »ç¹ø, ÀÌ¸§, ±Ş¿©, µî±ŞÀ» °Ë»öÇÏ´Â SQL¹®ÀåÀ» ÀÛ¼º (case, decode) 
---±Ş¿© µî±Ş
---0 ~ 999 E    1000 ~ 1999 D    2000 ~ 2999 C   3000 ~ 3999 B   4000 ÀÌ»ó A
-----7. EMP Å×ÀÌºí¿¡¼­ ´ÙÀ½ÀÇ °á°ú°¡ Ãâ·ÂµÇµµ·Ï ÀÛ¼ºÇÏ½Ã¿À.
---SalÀÇ °ªÀÌ 3¹è°¡ µÇµµ·Ï Ãâ·Â
+--1. ì‚¬ì› í…Œì´ë¸”ì˜ ì‚¬ì›ëª…ì—ì„œ 2ë²ˆì§¸ ë¬¸ìë¶€í„° 3ê°œì˜ ë¬¸ìë¥¼ ì¶”ì¶œí•˜ì‹œì˜¤.
+--2. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ì…ì‚¬ì¼ì´ 12ì›”ì¸ ì‚¬ì›ì˜ ì‚¬ë²ˆ, ì‚¬ì›ëª…, ì…ì‚¬ì¼ì„ ê²€ìƒ‰í•˜ì‹œì˜¤.
+--3. ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬(10ìë¦¬ ì™¼ìª½ì— *)
+--4. ì‚¬ë²ˆ, ì´ë¦„, ì…ì‚¬ì¼ ë…„4-ì›”-ì¼
+--6. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ê¸‰ì—¬ì— ë”°ë¼ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ë“±ê¸‰ì„ ê²€ìƒ‰í•˜ëŠ” SQLë¬¸ì¥ì„ ì‘ì„± (case, decode) 
+--ê¸‰ì—¬ ë“±ê¸‰
+--0 ~ 999 E    1000 ~ 1999 D    2000 ~ 2999 C   3000 ~ 3999 B   4000 ì´ìƒ A
+----7. EMP í…Œì´ë¸”ì—ì„œ ë‹¤ìŒì˜ ê²°ê³¼ê°€ ì¶œë ¥ë˜ë„ë¡ ì‘ì„±í•˜ì‹œì˜¤.
+--Salì˜ ê°’ì´ 3ë°°ê°€ ë˜ë„ë¡ ì¶œë ¥
 --Dream Salary
 --------------------------------------------------------------
+
 --KING earns $5,000.00 monthly but wants $15,000.00
 --BLAKE earns $2,850.00 monthly but wants $8,550.00
 --CLARK earns $2,450.00 monthly but wants $7,350.00
 
---5. »ç¿ø Å×ÀÌºí¿¡¼­ ±Ş¿©¿¡ µû¶ó »ç¹ø, ÀÌ¸§, ±Ş¿©, µî±ŞÀ» °Ë»öÇÏ´Â SQL ¹®ÀåÀ» ÀÛ¼ºÇÏ½Ã¿À. (Hint : CASE ÇÔ¼ö »ç¿ë, decode)
+--5. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ê¸‰ì—¬ì— ë”°ë¼ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ë“±ê¸‰ì„ ê²€ìƒ‰í•˜ëŠ” SQL ë¬¸ì¥ì„ ì‘ì„±í•˜ì‹œì˜¤. (Hint : CASE í•¨ìˆ˜ ì‚¬ìš©, decode)
 --0 ~ 1000 E    1001 ~ 2000 D    2001 ~ 3000 C   3100 ~ 4000 B   4001 ~ 5000 A
 
 
 
 
 
---1. »ç¿ø Å×ÀÌºíÀÇ »ç¿ø¸í¿¡¼­ 2¹øÂ° ¹®ÀÚºÎÅÍ 3°³ÀÇ ¹®ÀÚ¸¦ ÃßÃâÇÏ½Ã¿À.
+--1. ì‚¬ì› í…Œì´ë¸”ì˜ ì‚¬ì›ëª…ì—ì„œ 2ë²ˆì§¸ ë¬¸ìë¶€í„° 3ê°œì˜ ë¬¸ìë¥¼ ì¶”ì¶œí•˜ì‹œì˜¤.
 select ename, substr(ename,2,3) from emp;
 
---2. »ç¿ø Å×ÀÌºí¿¡¼­ ÀÔ»çÀÏÀÌ 12¿ùÀÎ »ç¿øÀÇ »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏÀ» °Ë»öÇÏ½Ã¿À.
+--2. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ì…ì‚¬ì¼ì´ 12ì›”ì¸ ì‚¬ì›ì˜ ì‚¬ë²ˆ, ì‚¬ì›ëª…, ì…ì‚¬ì¼ì„ ê²€ìƒ‰í•˜ì‹œì˜¤.
 select empno, ename, hiredate from emp where substr(hiredate,4,2) = 12;
 select empno, ename, hiredate from emp where to_char(hiredate, 'mm') = 12;
 
---3. »ç¹ø, ÀÌ¸§, ±Ş¿©(10ÀÚ¸® ¿ŞÂÊ¿¡ *)
+--3. ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬(10ìë¦¬ ì™¼ìª½ì— *)
 select empno, ename, sal, lpad(sal, 10, '#') from emp;
 
---4. »ç¹ø, ÀÌ¸§, ÀÔ»çÀÏ ³â4-¿ù-ÀÏ
+--4. ì‚¬ë²ˆ, ì´ë¦„, ì…ì‚¬ì¼ ë…„4-ì›”-ì¼
 select empno, ename, to_char(hiredate, 'yyyy-mm-dd') from emp;
 
---6. »ç¿ø Å×ÀÌºí¿¡¼­ ±Ş¿©¿¡ µû¶ó »ç¹ø, ÀÌ¸§, ±Ş¿©, µî±ŞÀ» °Ë»öÇÏ´Â SQL¹®ÀåÀ» ÀÛ¼º (case, decode) 
---±Ş¿© µî±Ş
---0 ~ 999 E    1000 ~ 1999 D    2000 ~ 2999 C   3000 ~ 3999 B   4000 ÀÌ»ó A
+--6. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ê¸‰ì—¬ì— ë”°ë¼ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ë“±ê¸‰ì„ ê²€ìƒ‰í•˜ëŠ” SQLë¬¸ì¥ì„ ì‘ì„± (case, decode) 
+--ê¸‰ì—¬ ë“±ê¸‰
+--0 ~ 999 E    1000 ~ 1999 D    2000 ~ 2999 C   3000 ~ 3999 B   4000 ì´ìƒ A
 select empno, ename, sal, case trunc(sal/1000) when 0 then 'E' when 1 then 'D' when 2 then 'C'
-when 3 then 'B' else 'A' end µî±Ş from emp;
--- trunc :¼Ò¼öÁ¡ ÀÌÇÏ¸¦ ¹ö¸²
-select empno, ename, sal, decode(trunc(sal/1000),0,'E',1,'D',2,'C',3,'B','A') µî±Ş from emp;
+when 3 then 'B' else 'A' end ë“±ê¸‰ from emp;
+-- trunc :ì†Œìˆ˜ì  ì´í•˜ë¥¼ ë²„ë¦¼
+select empno, ename, sal, decode(trunc(sal/1000),0,'E',1,'D',2,'C',3,'B','A') ë“±ê¸‰ from emp;
 
 select empno, ename, sal, case when sal between 0 and 999 then 'E' when sal between 1000 and 1999 then 'D' 
-when sal between 2000 and 2999 then 'C' when sal between 3000 and 3999 then 'B' else 'A' end µî±Ş from emp;
+when sal between 2000 and 2999 then 'C' when sal between 3000 and 3999 then 'B' else 'A' end ë“±ê¸‰ from emp;
 
-----7. EMP Å×ÀÌºí¿¡¼­ ´ÙÀ½ÀÇ °á°ú°¡ Ãâ·ÂµÇµµ·Ï ÀÛ¼ºÇÏ½Ã¿À.
---SalÀÇ °ªÀÌ 3¹è°¡ µÇµµ·Ï Ãâ·Â
+----7. EMP í…Œì´ë¸”ì—ì„œ ë‹¤ìŒì˜ ê²°ê³¼ê°€ ì¶œë ¥ë˜ë„ë¡ ì‘ì„±í•˜ì‹œì˜¤.
+--Salì˜ ê°’ì´ 3ë°°ê°€ ë˜ë„ë¡ ì¶œë ¥
 --Dream Salary
 --------------------------------------------------------------
 --KING earns $5,000.00 monthly but wants $15,000.00
@@ -109,84 +111,84 @@ select ename ||' earns' || to_char(sal, '$9,999.00') || ' monthly but wants ' ||
 "Dream Salary" from emp;
 
 
---5. »ç¿ø Å×ÀÌºí¿¡¼­ ±Ş¿©¿¡ µû¶ó »ç¹ø, ÀÌ¸§, ±Ş¿©, µî±ŞÀ» °Ë»öÇÏ´Â SQL ¹®ÀåÀ» ÀÛ¼ºÇÏ½Ã¿À. (Hint : CASE ÇÔ¼ö »ç¿ë, decode)
+--5. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ê¸‰ì—¬ì— ë”°ë¼ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ë“±ê¸‰ì„ ê²€ìƒ‰í•˜ëŠ” SQL ë¬¸ì¥ì„ ì‘ì„±í•˜ì‹œì˜¤. (Hint : CASE í•¨ìˆ˜ ì‚¬ìš©, decode)
 --0 ~ 1000 E    1001 ~ 2000 D    2001 ~ 3000 C   3100 ~ 4000 B   4001 ~ 5000 A
 select empno, ename, sal, case trunc((sal-1)/1000) when 0 then 'E' when 1 then 'D' when 2 then 'C'
-when 3 then 'B' else 'A' end µî±Ş from emp;
+when 3 then 'B' else 'A' end ë“±ê¸‰ from emp;
 
-select empno, ename, sal, decode(trunc((sal-1)/1000),0,'E',1,'D',2,'C',3,'B','A') µî±Ş from emp;
+select empno, ename, sal, decode(trunc((sal-1)/1000),0,'E',1,'D',2,'C',3,'B','A') ë“±ê¸‰ from emp;
 --------------------------------------------------------------
-                         -- kingºÎÅÍ ½ÃÀÛ             king»ç¹ø  »ó´ë¹æ °ü¸®ÀÚ »ç¹ø
+                         -- kingë¶€í„° ì‹œì‘             kingì‚¬ë²ˆ  ìƒëŒ€ë°© ê´€ë¦¬ì ì‚¬ë²ˆ
 select ename from emp start with mgr is null connect by prior empno = mgr;
 -- top -> down left -> right
-select lpad(ename, length(ename)+(level*3)-3, ' ') ÀÌ¸§ from emp start with mgr is null connect by prior empno = mgr;
-select lpad(ename, length(ename)+(level*2)-2, ' ') ÀÌ¸§ from emp start with mgr is null connect by prior empno = mgr;
-select lpad(ename, length(ename)+(level*3)-3, ' ') ÀÌ¸§ from emp start with ename = 'KING' connect by prior empno = mgr;
+select lpad(ename, length(ename)+(level*3)-3, ' ') ì´ë¦„ from emp start with mgr is null connect by prior empno = mgr;
+select lpad(ename, length(ename)+(level*2)-2, ' ') ì´ë¦„ from emp start with mgr is null connect by prior empno = mgr;
+select lpad(ename, length(ename)+(level*3)-3, ' ') ì´ë¦„ from emp start with ename = 'KING' connect by prior empno = mgr;
 
---- adams ±âÁØÀ¸·Î Á÷°è¸¦ º¸¿©ÁÜ
-select lpad(ename, length(ename)+(level*3)-3, ' ') ÀÌ¸§ from emp start with ename='ADAMS' connect by prior mgr = empno;
+--- adams ê¸°ì¤€ìœ¼ë¡œ ì§ê³„ë¥¼ ë³´ì—¬ì¤Œ
+select lpad(ename, length(ename)+(level*3)-3, ' ') ì´ë¦„ from emp start with ename='ADAMS' connect by prior mgr = empno;
 
--- FORD line ¾ø¾Ö±â
-select lpad(ename, length(ename)+(level*3)-3, ' ') ÀÌ¸§ from emp start with ename='KING' connect by prior empno = mgr
+-- FORD line ì—†ì• ê¸°
+select lpad(ename, length(ename)+(level*3)-3, ' ') ì´ë¦„ from emp start with ename='KING' connect by prior empno = mgr
 and ename != 'FORD';
 
--- FORD¸¸ ¾ø¾Ö±â
-select lpad(ename, length(ename)+(level*3)-3, ' ') ÀÌ¸§ from emp where ename != 'FORD' start with ename='KING' connect by prior empno = mgr;
+-- FORDë§Œ ì—†ì• ê¸°
+select lpad(ename, length(ename)+(level*3)-3, ' ') ì´ë¦„ from emp where ename != 'FORD' start with ename='KING' connect by prior empno = mgr;
 
 --------------------------------------------------------------------
---- Á¶ÀÎ ¸éÁ¢¿¡¼­ ¸¹ÀÌ ¹°¾îº½
+--- ì¡°ì¸ ë©´ì ‘ì—ì„œ ë§ì´ ë¬¼ì–´ë´„
 select * from emp;
 select empno, ename, job, dname, loc from emp, dept where emp.deptno = dept.deptno;
---select empno, ename, job, deptno, dname, loc from emp, dept where emp.deptno = dept.deptno; ¿¡·¯ ¹ß»ı
+--select empno, ename, job, deptno, dname, loc from emp, dept where emp.deptno = dept.deptno; ì—ëŸ¬ ë°œìƒ
 select emp.empno, emp.ename, emp.job, emp.deptno, dept.dname, dept.loc from emp, dept where emp.deptno = dept.deptno; 
--- e, d Å×ÀÌºí º°Äª table alias -> alias
+-- e, d í…Œì´ë¸” ë³„ì¹­ table alias -> alias
 select e.empno, e.ename, e.job, e.deptno, d.dname, d.loc from emp e, dept d where e.deptno = d.deptno; 
--- ÇÑÂÊ Å×ÀÌºí¿¡¸¸ Á¸ÀçÇÏ´Â Ä®·³Àº Å×ÀÌºí¸í »ı·« °¡´É
+-- í•œìª½ í…Œì´ë¸”ì—ë§Œ ì¡´ì¬í•˜ëŠ” ì¹¼ëŸ¼ì€ í…Œì´ë¸”ëª… ìƒëµ ê°€ëŠ¥
 select empno, ename, job, e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno; 
 
--- Ä«Æ¼¼Ç ÇÁ·Î´öÆ® , cross join   ÃÑ °æ¿ìÀÇ ¼ö Ãâ·Â -- 14 x 4 = 56
+-- ì¹´í‹°ì…˜ í”„ë¡œë•íŠ¸ , cross join   ì´ ê²½ìš°ì˜ ìˆ˜ ì¶œë ¥ -- 14 x 4 = 56
 select empno, ename, job, e.deptno, dname, loc from emp e, dept d;  
 --------------------------------------------------------------------
---1. »ç¹ø, ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­¸í
---2. ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­¸í, ±Ù¹«Áö 81³â ÀÔ»ç¸¸
---3. ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­ÄÚµå, ºÎ¼­¸í, commÀÌ null
---4. ÀÌ¸§, ¾÷¹«, ºÎ¼­ÄÚµå, ºÎ¼­¸í,±Ù¹«Áö, ±Ù¹«Áö°¡ DALLAS
---5. ÀÌ¸§, ¾÷¹«, ºÎ¼­¸í, ±Ù¹«Áö ¾÷¹«°¡ managerÀÌ°Å³ª clerkÀÎ »ç¶÷
---6. ÀÌ¸§, ¾÷¹«, ºÎ¼­¸í, ±Ş¿©, comm, ¿¬ºÀ(=(±Ş¿©+comm)*12 commÀÌ nullÀÌ¸é 0) ¿¬ºÀ Å« ¼ø
---7. »ç¹ø, ÀÌ¸§, ¾÷¹«, ºÎ¼­ÄÚµå, ºÎ¼­¸í, ±Ş¿©  ±Ş¿©°¡ 1000 ~ 3000 »çÀÌ ºÎ¼­¸í ¼ø, ±Ş¿© Å« ¼ø
---8. »ç¹ø, ÀÌ¸§, ±Ş¿©, Ä¿¹Ì¼Ç, ¿¬ºÀ(commÀÌ nullÀÌ¸é 0), ºÎ¼­ÄÚµå, ºÎ¼­¸í, ±Ù¹«Áö, ºÎ¼­ÄÚµå ¼ø, ±Ş¿©ÀÛÀº ¼ø
---9. »ç¹ø, ÀÌ¸§, ¾÷¹«, ±Ş¿©, ºÎ¼­¸í, ±Ù¹«Áö  ºÎ¼Å¸íÀÌ reserachÀÎ °æ¿ì ±Ş¿© Å« ¼ø
+--1. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œëª…
+--2. ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œëª…, ê·¼ë¬´ì§€ 81ë…„ ì…ì‚¬ë§Œ
+--3. ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, commì´ null
+--4. ì´ë¦„, ì—…ë¬´, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…,ê·¼ë¬´ì§€, ê·¼ë¬´ì§€ê°€ DALLAS
+--5. ì´ë¦„, ì—…ë¬´, ë¶€ì„œëª…, ê·¼ë¬´ì§€ ì—…ë¬´ê°€ managerì´ê±°ë‚˜ clerkì¸ ì‚¬ëŒ
+--6. ì´ë¦„, ì—…ë¬´, ë¶€ì„œëª…, ê¸‰ì—¬, comm, ì—°ë´‰(=(ê¸‰ì—¬+comm)*12 commì´ nullì´ë©´ 0) ì—°ë´‰ í° ìˆœ
+--7. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ê¸‰ì—¬  ê¸‰ì—¬ê°€ 1000 ~ 3000 ì‚¬ì´ ë¶€ì„œëª… ìˆœ, ê¸‰ì—¬ í° ìˆœ
+--8. ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ì»¤ë¯¸ì…˜, ì—°ë´‰(commì´ nullì´ë©´ 0), ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ê·¼ë¬´ì§€, ë¶€ì„œì½”ë“œ ìˆœ, ê¸‰ì—¬ì‘ì€ ìˆœ
+--9. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ê¸‰ì—¬, ë¶€ì„œëª…, ê·¼ë¬´ì§€  ë¶€ì…”ëª…ì´ reserachì¸ ê²½ìš° ê¸‰ì—¬ í° ìˆœ
 
 
 desc emp;
 desc dept;
 
---1. »ç¹ø, ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­¸í
+--1. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œëª…
 select empno, ename, job, hiredate, dname from emp e, dept d where e.deptno = d.deptno;
 
---2. ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­¸í, ±Ù¹«Áö 81³â ÀÔ»ç¸¸
+--2. ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œëª…, ê·¼ë¬´ì§€ 81ë…„ ì…ì‚¬ë§Œ
 select ename, job, hiredate, dname, loc from emp e, dept d where e.deptno = d.deptno and to_char(hiredate, 'yy') = 81;
 
---3. ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­ÄÚµå, ºÎ¼­¸í, commÀÌ null
+--3. ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, commì´ null
 select ename, job, hiredate, e.deptno, dname from emp e, dept d where e.deptno = d.deptno and comm is null;
 
---4. ÀÌ¸§, ¾÷¹«, ºÎ¼­ÄÚµå, ºÎ¼­¸í, ±Ù¹«Áö, ±Ù¹«Áö°¡ DALLAS
+--4. ì´ë¦„, ì—…ë¬´, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ê·¼ë¬´ì§€, ê·¼ë¬´ì§€ê°€ DALLAS
 select ename, job, e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno and loc = 'DALLAS';
 
---5. ÀÌ¸§, ¾÷¹«, ºÎ¼­¸í, ±Ù¹«Áö ¾÷¹«°¡ managerÀÌ°Å³ª clerkÀÎ »ç¶÷
+--5. ì´ë¦„, ì—…ë¬´, ë¶€ì„œëª…, ê·¼ë¬´ì§€ ì—…ë¬´ê°€ managerì´ê±°ë‚˜ clerkì¸ ì‚¬ëŒ
 select ename, job, dname, loc from emp e, dept d where e.deptno = d.deptno and lower(job) in ('manager','clerk');
 
---6. ÀÌ¸§, ¾÷¹«, ºÎ¼­¸í, ±Ş¿©, comm, ¿¬ºÀ(=(±Ş¿©+comm)*12 commÀÌ nullÀÌ¸é 0) ¿¬ºÀ Å« ¼ø
-select ename, job, dname, sal, comm, (sal+nvl(comm, 0))*12 ¿¬ºÀ from emp e, dept d where e.deptno = d.deptno order by ¿¬ºÀ desc;
+--6. ì´ë¦„, ì—…ë¬´, ë¶€ì„œëª…, ê¸‰ì—¬, comm, ì—°ë´‰(=(ê¸‰ì—¬+comm)*12 commì´ nullì´ë©´ 0) ì—°ë´‰ í° ìˆœ
+select ename, job, dname, sal, comm, (sal+nvl(comm, 0))*12 ì—°ë´‰ from emp e, dept d where e.deptno = d.deptno order by ì—°ë´‰ desc;
 
---7. »ç¹ø, ÀÌ¸§, ¾÷¹«, ºÎ¼­ÄÚµå, ºÎ¼­¸í, ±Ş¿©  ±Ş¿©°¡ 1000 ~ 3000 »çÀÌ ºÎ¼­¸í ¼ø, ±Ş¿© Å« ¼ø
+--7. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ê¸‰ì—¬  ê¸‰ì—¬ê°€ 1000 ~ 3000 ì‚¬ì´ ë¶€ì„œëª… ìˆœ, ê¸‰ì—¬ í° ìˆœ
 select empno, ename, job, e.deptno, dname, sal from emp e, dept d where e.deptno = d.deptno and sal between 1000 and 3000 
 order by dname, sal desc;
 
---8. »ç¹ø, ÀÌ¸§, ±Ş¿©, Ä¿¹Ì¼Ç, ¿¬ºÀ(commÀÌ nullÀÌ¸é 0), ºÎ¼­ÄÚµå, ºÎ¼­¸í, ±Ù¹«Áö, ºÎ¼­ÄÚµå ¼ø, ±Ş¿©ÀÛÀº ¼ø
-select empno, ename, sal, comm, (sal+nvl(comm, 0))*12 ¿¬ºÀ, e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno
+--8. ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬, ì»¤ë¯¸ì…˜, ì—°ë´‰(commì´ nullì´ë©´ 0), ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…, ê·¼ë¬´ì§€, ë¶€ì„œì½”ë“œ ìˆœ, ê¸‰ì—¬ì‘ì€ ìˆœ
+select empno, ename, sal, comm, (sal+nvl(comm, 0))*12 ì—°ë´‰, e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno
 order by e.deptno, sal;
 
---9. »ç¹ø, ÀÌ¸§, ¾÷¹«, ±Ş¿©, ºÎ¼­¸í, ±Ù¹«Áö  ºÎ¼Å¸íÀÌ reserachÀÎ °æ¿ì ±Ş¿© Å« ¼ø
+--9. ì‚¬ë²ˆ, ì´ë¦„, ì—…ë¬´, ê¸‰ì—¬, ë¶€ì„œëª…, ê·¼ë¬´ì§€  ë¶€ì…”ëª…ì´ reserachì¸ ê²½ìš° ê¸‰ì—¬ í° ìˆœ
 select empno, ename, job, sal, dname, loc from emp e, dept d where e.deptno = d.deptno and dname = 'research' order by sal desc;
 
