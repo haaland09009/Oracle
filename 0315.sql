@@ -1,122 +1,122 @@
--- È¸»ç Á÷¿ø±Ş¿© Æò±Õº¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
+-- íšŒì‚¬ ì§ì›ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
 select ename, sal from emp where sal > (select avg(sal) from emp);
 select round(avg(sal)) from emp;
 
 select deptno, round(avg(sal)) from emp group by deptno;
--- È¸»çÆò±Õ 2017, 10¹ø 2917, 20¹ø 2175, 30¹ø 1567
+-- íšŒì‚¬í‰ê·  2017, 10ë²ˆ 2917, 20ë²ˆ 2175, 30ë²ˆ 1567
 
--- º»ÀÎÀÇ ºÎ¼­ Æò±Õº¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
--- main query¿Í sub queryÀÇ µ¥ÀÌÅÍ¸¦ ºñ±³ÇÏ¿© Ã³¸®ÇÏ´Â sqlÀ» »ó°ü°ü°è query
+-- ë³¸ì¸ì˜ ë¶€ì„œ í‰ê· ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
+-- main queryì™€ sub queryì˜ ë°ì´í„°ë¥¼ ë¹„êµí•˜ì—¬ ì²˜ë¦¬í•˜ëŠ” sqlì„ ìƒê´€ê´€ê³„ query
 select ename, sal from emp e1 where sal > (select avg(sal) from emp e2 where e1.deptno = e2.deptno);
--- sub query ³»ºÎÀÇ º°ÄªÀº »ı·« °¡´É
+-- sub query ë‚´ë¶€ì˜ ë³„ì¹­ì€ ìƒëµ ê°€ëŠ¥
 select ename, sal from emp e where sal > (select avg(sal) from emp where e.deptno = deptno);
 
--- main query µ¥ÀÌÅÍ ÇÑ°ÇÀ» ÀĞ¾î¼­ ±× µ¥ÀÌÅÍÀÇ »ç¹øÀÌ sub queryÀÇ Å×ÀÌºí¿¡ mgr¿¡ ¾øÀ¸¸é Ãâ·Â
--- ¹Ø¿¡ Á÷¿øÀÌ ÀÖÀ¸¸é (Áï °ü¸®ÀÚ¸é) Ãâ·Â
-select empno, ename, sal from emp e where exists (select empno from emp where e.empno = mgr); -- ÀÌÇØ¾È°¨
+-- main query ë°ì´í„° í•œê±´ì„ ì½ì–´ì„œ ê·¸ ë°ì´í„°ì˜ ì‚¬ë²ˆì´ sub queryì˜ í…Œì´ë¸”ì— mgrì— ì—†ìœ¼ë©´ ì¶œë ¥
+-- ë°‘ì— ì§ì›ì´ ìˆìœ¼ë©´ (ì¦‰ ê´€ë¦¬ìë©´) ì¶œë ¥
+select empno, ename, sal from emp e where exists (select empno from emp where e.empno = mgr); -- ì´í•´ì•ˆê°
 select empno, ename, sal from emp e where not exists (select empno from emp where e.empno = mgr);
 ----------------------------------------------------------------------------------------------------------
 
---(¸ğ¸§)--  exists !!!!!
+--(ëª¨ë¦„)--  exists !!!!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!
 select * from emp;
-1. ÀÚ±â ¾÷¹«±Ş¿© Æò±Õº¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ¾÷¹«
+1. ìê¸° ì—…ë¬´ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ì—…ë¬´
 select ename, sal, job from emp e where sal > (select avg(sal) from emp where e.job = job);
 
-2. ÀÚ±â ºÎ¼­ Æò±Õº¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­ÄÚµå, ºÎ¼­¸í
+2. ìê¸° ë¶€ì„œ í‰ê· ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì½”ë“œ, ë¶€ì„œëª…
 select ename, sal, e.deptno, dname from emp e, dept d where e.deptno = d.deptno 
 and sal > (select avg(sal) from emp where e.deptno = deptno);
 
-3. exists »ç¿ëÇÏ¿© °ü¸®ÀÚ Ãâ·Â
+3. exists ì‚¬ìš©í•˜ì—¬ ê´€ë¦¬ì ì¶œë ¥
 select * from emp e where exists (select empno from emp where e.empno = mgr);
 
-4. exists »ç¿ëÇÏÁö ¾Ê°í °ü¸®ÀÚ¸¸ Ãâ·Â
+4. exists ì‚¬ìš©í•˜ì§€ ì•Šê³  ê´€ë¦¬ìë§Œ ì¶œë ¥
 select * from emp where empno in (select mgr from emp);
 
-5. exists »ç¿ëÇÏ¿© ¸»´Ü Á÷¿ø Ãâ·Â
+5. exists ì‚¬ìš©í•˜ì—¬ ë§ë‹¨ ì§ì› ì¶œë ¥
 select * from emp e where not exists (select empno from emp where e.empno = mgr);
 
-6. exists »ç¿ëÇÏÁö ¾Ê°í ¸»´Ü Á÷¿ø Ãâ·Â
+6. exists ì‚¬ìš©í•˜ì§€ ì•Šê³  ë§ë‹¨ ì§ì› ì¶œë ¥
 select * from emp where empno not in (select mgr from emp where mgr is not null);
 
-7. È¸»ç Æò±Õº¸´Ù ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ ÀÌ¸§, ±Ş¿©, ºÎ¼­¸í, ±Ş¿©µî±Ş, ºÎ¼­¸í¼ø, ±Ş¿©Å«¼ø
-select ename, sal, dname, grade from emp e, dept d, salgrade where e.deptno = d.deptno;
+7. íšŒì‚¬ í‰ê· ë³´ë‹¤ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œëª…, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…ìˆœ, ê¸‰ì—¬í°ìˆœ
+select ename, sal, dname, grade from emp e, dept d, salgrade where e.deptno = d.deptno
 and e.sal between losal and hisal and sal > (select avg(sal) from emp) order by dname, sal desc;
 
 ----------------------------------------------------------------------------------------------------------
---1. EMP Å×ÀÌºí¿¡¼­ Blake¿Í °°Àº ºÎ¼­¿¡ ÀÖ´Â ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ÀÔ»çÀÏÀÚ¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---2. EMP Å×ÀÌºí¿¡¼­ Æò±Õ ±Ş¿© ÀÌ»óÀ» ¹Ş´Â ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ¼­ Á¾¾÷¿ø ¹øÈ£¿Í ÀÌ¸§À» Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À. ´Ü ±Ş¿©°¡ ¸¹Àº ¼øÀ¸·Î Ãâ·ÂÇÏ¿©¶ó.
---3. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§¿¡ ¡°T¡±°¡ ÀÖ´Â »ç¿øÀÌ ±Ù¹«ÇÏ´Â ºÎ¼­¿¡¼­ ±Ù¹«ÇÏ´Â ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ »ç¿ø ¹øÈ£,ÀÌ¸§,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À. 
---´Ü »ç¿ø¹øÈ£ ¼øÀ¸·Î Ãâ·ÂÇÏ¿©¶ó.
---4. EMP Å×ÀÌºí¿¡¼­ ºÎ¼­ À§Ä¡°¡ DallasÀÎ ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ ÀÌ¸§,¾÷¹«,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---5. EMP Å×ÀÌºí¿¡¼­ King¿¡°Ô º¸°íÇÏ´Â ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---6. EMP Å×ÀÌºí¿¡¼­ SALESºÎ¼­ »ç¿øÀÇ ÀÌ¸§,¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---7. EMP Å×ÀÌºí¿¡¼­ ¿ù±ŞÀÌ ºÎ¼­ 30ÀÇ ÃÖÀú ¿ù±Şº¸´Ù ³ôÀº »ç¿øÀ» Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---8. EMP Å×ÀÌºí¿¡¼­ ºÎ¼­ 10¿¡¼­ ºÎ¼­ 30ÀÇ »ç¿ø°ú °°Àº ¾÷¹«¸¦ ¸Ã°í ÀÖ´Â »ç¿øÀÇ ÀÌ¸§°ú ¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---9. EMP Å×ÀÌºí¿¡¼­ FORD¿Í ¾÷¹«µµ ¿ù±Şµµ °°Àº »ç¿øÀÇ ¸ğµç Á¤º¸¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À
+--1. EMP í…Œì´ë¸”ì—ì„œ Blakeì™€ ê°™ì€ ë¶€ì„œì— ìˆëŠ” ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ì…ì‚¬ì¼ìë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--2. EMP í…Œì´ë¸”ì—ì„œ í‰ê·  ê¸‰ì—¬ ì´ìƒì„ ë°›ëŠ” ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ì„œ ì¢…ì—…ì› ë²ˆí˜¸ì™€ ì´ë¦„ì„ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤. ë‹¨ ê¸‰ì—¬ê°€ ë§ì€ ìˆœìœ¼ë¡œ ì¶œë ¥í•˜ì—¬ë¼.
+--3. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„ì— â€œTâ€ê°€ ìˆëŠ” ì‚¬ì›ì´ ê·¼ë¬´í•˜ëŠ” ë¶€ì„œì—ì„œ ê·¼ë¬´í•˜ëŠ” ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ ì‚¬ì› ë²ˆí˜¸,ì´ë¦„,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤. 
+--ë‹¨ ì‚¬ì›ë²ˆí˜¸ ìˆœìœ¼ë¡œ ì¶œë ¥í•˜ì—¬ë¼.
+--4. EMP í…Œì´ë¸”ì—ì„œ ë¶€ì„œ ìœ„ì¹˜ê°€ Dallasì¸ ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--5. EMP í…Œì´ë¸”ì—ì„œ Kingì—ê²Œ ë³´ê³ í•˜ëŠ” ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--6. EMP í…Œì´ë¸”ì—ì„œ SALESë¶€ì„œ ì‚¬ì›ì˜ ì´ë¦„,ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--7. EMP í…Œì´ë¸”ì—ì„œ ì›”ê¸‰ì´ ë¶€ì„œ 30ì˜ ìµœì € ì›”ê¸‰ë³´ë‹¤ ë†’ì€ ì‚¬ì›ì„ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--8. EMP í…Œì´ë¸”ì—ì„œ ë¶€ì„œ 10ì—ì„œ ë¶€ì„œ 30ì˜ ì‚¬ì›ê³¼ ê°™ì€ ì—…ë¬´ë¥¼ ë§¡ê³  ìˆëŠ” ì‚¬ì›ì˜ ì´ë¦„ê³¼ ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--9. EMP í…Œì´ë¸”ì—ì„œ FORDì™€ ì—…ë¬´ë„ ì›”ê¸‰ë„ ê°™ì€ ì‚¬ì›ì˜ ëª¨ë“  ì •ë³´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤
 
 
---1. EMP Å×ÀÌºí¿¡¼­ Blake¿Í °°Àº ºÎ¼­¿¡ ÀÖ´Â ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ÀÔ»çÀÏÀÚ¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--1. EMP í…Œì´ë¸”ì—ì„œ Blakeì™€ ê°™ì€ ë¶€ì„œì— ìˆëŠ” ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ì…ì‚¬ì¼ìë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, hiredate from emp where deptno = (select deptno from emp where ename = 'BLAKE');
 
---2. EMP Å×ÀÌºí¿¡¼­ Æò±Õ ±Ş¿© ÀÌ»óÀ» ¹Ş´Â ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ¼­ Á¾¾÷¿ø ¹øÈ£¿Í ÀÌ¸§À» Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À. ´Ü ±Ş¿©°¡ ¸¹Àº ¼øÀ¸·Î Ãâ·ÂÇÏ¿©¶ó.
+--2. EMP í…Œì´ë¸”ì—ì„œ í‰ê·  ê¸‰ì—¬ ì´ìƒì„ ë°›ëŠ” ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ì„œ ì¢…ì—…ì› ë²ˆí˜¸ì™€ ì´ë¦„ì„ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤. ë‹¨ ê¸‰ì—¬ê°€ ë§ì€ ìˆœìœ¼ë¡œ ì¶œë ¥í•˜ì—¬ë¼.
 select empno, ename from emp where sal >= (select avg(sal) from emp) order by sal desc;
 
---3. EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§¿¡ ¡°T¡±°¡ ÀÖ´Â »ç¿øÀÌ ±Ù¹«ÇÏ´Â ºÎ¼­¿¡¼­ ±Ù¹«ÇÏ´Â ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ »ç¿ø ¹øÈ£,ÀÌ¸§,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
---´Ü »ç¿ø¹øÈ£ ¼øÀ¸·Î Ãâ·ÂÇÏ¿©¶ó.
+--3. EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„ì— â€œTâ€ê°€ ìˆëŠ” ì‚¬ì›ì´ ê·¼ë¬´í•˜ëŠ” ë¶€ì„œì—ì„œ ê·¼ë¬´í•˜ëŠ” ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ ì‚¬ì› ë²ˆí˜¸,ì´ë¦„,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
+--ë‹¨ ì‚¬ì›ë²ˆí˜¸ ìˆœìœ¼ë¡œ ì¶œë ¥í•˜ì—¬ë¼.
 select empno, ename, sal from emp where deptno in (select deptno from emp where ename like '%T%') order by empno;
 
 select * from dept;
---4. EMP Å×ÀÌºí¿¡¼­ ºÎ¼­ À§Ä¡°¡ DallasÀÎ ¸ğµç Á¾¾÷¿ø¿¡ ´ëÇØ ÀÌ¸§,¾÷¹«,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--4. EMP í…Œì´ë¸”ì—ì„œ ë¶€ì„œ ìœ„ì¹˜ê°€ Dallasì¸ ëª¨ë“  ì¢…ì—…ì›ì— ëŒ€í•´ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, job, sal from emp where deptno = (select deptno from dept where loc = 'DALLAS');
 
---5. EMP Å×ÀÌºí¿¡¼­ King¿¡°Ô º¸°íÇÏ´Â ¸ğµç »ç¿øÀÇ ÀÌ¸§°ú ±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--5. EMP í…Œì´ë¸”ì—ì„œ Kingì—ê²Œ ë³´ê³ í•˜ëŠ” ëª¨ë“  ì‚¬ì›ì˜ ì´ë¦„ê³¼ ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, sal from emp where mgr in (select deptno from emp where ename ='KING');
 -- select ename, sal from emp e where mgr = (select empno from emp where e.mgr = empno and mgr is null);
 --select ename, sal from emp e where mgr in (select empno from emp where e.mgr = empno and ename = 'KING');
 
---6. EMP Å×ÀÌºí¿¡¼­ SALES ºÎ¼­ »ç¿øÀÇ ÀÌ¸§,¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--6. EMP í…Œì´ë¸”ì—ì„œ SALES ë¶€ì„œ ì‚¬ì›ì˜ ì´ë¦„,ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, job from emp where deptno = (select deptno from dept where dname = 'SALES');
 
---7. EMP Å×ÀÌºí¿¡¼­ ¿ù±ŞÀÌ ºÎ¼­ 30ÀÇ ÃÖÀú ¿ù±Şº¸´Ù ³ôÀº »ç¿øÀ» Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--7. EMP í…Œì´ë¸”ì—ì„œ ì›”ê¸‰ì´ ë¶€ì„œ 30ì˜ ìµœì € ì›”ê¸‰ë³´ë‹¤ ë†’ì€ ì‚¬ì›ì„ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select * from emp where sal > (select min(sal) from emp where deptno = 30);
 
---8. EMP Å×ÀÌºí¿¡¼­ ºÎ¼­ 10¿¡¼­ ºÎ¼­ 30ÀÇ »ç¿ø°ú °°Àº ¾÷¹«¸¦ ¸Ã°í ÀÖ´Â »ç¿øÀÇ ÀÌ¸§°ú ¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--8. EMP í…Œì´ë¸”ì—ì„œ ë¶€ì„œ 10ì—ì„œ ë¶€ì„œ 30ì˜ ì‚¬ì›ê³¼ ê°™ì€ ì—…ë¬´ë¥¼ ë§¡ê³  ìˆëŠ” ì‚¬ì›ì˜ ì´ë¦„ê³¼ ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, job from emp where deptno = 10 and job in (select job from emp where deptno = 30);
 
---(¸ğ¸§)-- --9. EMP Å×ÀÌºí¿¡¼­ FORD¿Í ¾÷¹«µµ ¿ù±Şµµ °°Àº »ç¿øÀÇ ¸ğµç Á¤º¸¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À
+--(ëª¨ë¦„)-- --9. EMP í…Œì´ë¸”ì—ì„œ FORDì™€ ì—…ë¬´ë„ ì›”ê¸‰ë„ ê°™ì€ ì‚¬ì›ì˜ ëª¨ë“  ì •ë³´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤
 select * from emp where (job, sal) = (select job, sal from emp where ename = 'FORD') and ename != 'FORD';
 --select * from emp where job = (select job from emp where ename = 'FORD') and sal =(select sal from emp where ename = 'FORD');
 
 ----------------------------------------------------------------------------------------------------------
---10. EMP Å×ÀÌºí¿¡¼­ ¾÷¹«°¡ JONES¿Í °°°Å³ª ¿ù±ŞÀÌ FORDÀÌ»óÀÎ »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,ºÎ¼­¹øÈ£,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼º
---´Ü ¾÷¹«º°, ¿ù±ŞÀÌ ¸¹Àº ¼øÀ¸·Î Ãâ·ÂÇÏ¿©¶ó.
+--10. EMP í…Œì´ë¸”ì—ì„œ ì—…ë¬´ê°€ JONESì™€ ê°™ê±°ë‚˜ ì›”ê¸‰ì´ FORDì´ìƒì¸ ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ë¶€ì„œë²ˆí˜¸,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±
+--ë‹¨ ì—…ë¬´ë³„, ì›”ê¸‰ì´ ë§ì€ ìˆœìœ¼ë¡œ ì¶œë ¥í•˜ì—¬ë¼.
 select ename, job, deptno, sal from emp where job = (select job from emp where ename = 'JONES' ) or
 sal >= (select sal from emp where ename = 'FORD') order by job, sal desc;
 
---11. EMP Å×ÀÌºí¿¡¼­ SCOTT ¶Ç´Â WARD¿Í ¿ù±ŞÀÌ °°Àº »ç¿øÀÇ Á¤º¸¸¦ ÀÌ¸§,¾÷¹«,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--11. EMP í…Œì´ë¸”ì—ì„œ SCOTT ë˜ëŠ” WARDì™€ ì›”ê¸‰ì´ ê°™ì€ ì‚¬ì›ì˜ ì •ë³´ë¥¼ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, job, sal from emp where sal in (select sal from emp where ename in('SCOTT', 'WARD'));
 
---12. EMP Å×ÀÌºí¿¡¼­ CHICAGO¿¡¼­ ±Ù¹«ÇÏ´Â »ç¿ø°ú °°Àº ¾÷¹«¸¦ ÇÏ´Â »ç¿øÀÇ ÀÌ¸§,¾÷¹«¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--12. EMP í…Œì´ë¸”ì—ì„œ CHICAGOì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ê³¼ ê°™ì€ ì—…ë¬´ë¥¼ í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„,ì—…ë¬´ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select ename, job from emp where job in (select job from emp where deptno = (select deptno from dept where loc ='CHICAGO'));
 
---(¸ğ¸§)-- --13. EMP Å×ÀÌºí¿¡¼­ ºÎ¼­º°·Î ¿ù±ŞÀÌ Æò±Õ ¿ù±Şº¸´Ù ³ôÀº »ç¿øÀ» ºÎ¼­¹øÈ£,ÀÌ¸§,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À. 
+--(ëª¨ë¦„)-- --13. EMP í…Œì´ë¸”ì—ì„œ ë¶€ì„œë³„ë¡œ ì›”ê¸‰ì´ í‰ê·  ì›”ê¸‰ë³´ë‹¤ ë†’ì€ ì‚¬ì›ì„ ë¶€ì„œë²ˆí˜¸,ì´ë¦„,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤. 
 select deptno, ename, sal from emp e where sal > (select avg(sal) from emp where e.deptno = deptno);
 
---(¸ğ¸§)-- --14. EMP Å×ÀÌºí¿¡¼­ ¾÷¹«º°·Î ¿ù±ŞÀÌ Æò±Õ ¿ù±Şº¸´Ù ³·Àº »ç¿øÀ» ºÎ¼­¹øÈ£,ÀÌ¸§,±Ş¿©¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--(ëª¨ë¦„)-- --14. EMP í…Œì´ë¸”ì—ì„œ ì—…ë¬´ë³„ë¡œ ì›”ê¸‰ì´ í‰ê·  ì›”ê¸‰ë³´ë‹¤ ë‚®ì€ ì‚¬ì›ì„ ë¶€ì„œë²ˆí˜¸,ì´ë¦„,ê¸‰ì—¬ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select deptno, ename, sal from emp e where sal < (select avg(sal) from emp where e.job = job);
 
---15. EMP Å×ÀÌºí¿¡¼­ Àû¾îµµ ÇÑ¸í ÀÌ»óÀ¸·ÎºÎÅÍ º¸°í¸¦ ¹ŞÀ» ¼ö ÀÖ´Â »ç¿øÀ» ¾÷¹«,ÀÌ¸§,»ç¿ø¹øÈ£,ºÎ¼­¹øÈ£¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À.
+--15. EMP í…Œì´ë¸”ì—ì„œ ì ì–´ë„ í•œëª… ì´ìƒìœ¼ë¡œë¶€í„° ë³´ê³ ë¥¼ ë°›ì„ ìˆ˜ ìˆëŠ” ì‚¬ì›ì„ ì—…ë¬´,ì´ë¦„,ì‚¬ì›ë²ˆí˜¸,ë¶€ì„œë²ˆí˜¸ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤.
 select job, ename, empno, deptno from emp e where exists (select * from emp where e.empno = mgr);
 select job, ename, empno, deptno from emp e where empno in (select mgr from emp);
 
 
---16. EMP Å×ÀÌºí¿¡¼­ ¸»´Ü »ç¿øÀÇ »ç¿ø¹øÈ£,ÀÌ¸§,¾÷¹«,ºÎ¼­¹øÈ£¸¦ Ãâ·ÂÇÏ´Â SELECT¹®À» ÀÛ¼ºÇÏ½Ã¿À
+--16. EMP í…Œì´ë¸”ì—ì„œ ë§ë‹¨ ì‚¬ì›ì˜ ì‚¬ì›ë²ˆí˜¸,ì´ë¦„,ì—…ë¬´,ë¶€ì„œë²ˆí˜¸ë¥¼ ì¶œë ¥í•˜ëŠ” SELECTë¬¸ì„ ì‘ì„±í•˜ì‹œì˜¤
 select job, ename, empno, deptno from emp e where not exists (select * from emp where e.empno = mgr);
 select job, ename, empno, deptno from emp e where empno not in (select mgr from emp where mgr is not null);
 ----------------------------------------------------------------------------------------------------------
 
--- DB¸í(schema).table¸í
+-- DBëª…(schema).tableëª…
 create table emp_test (
     empid varchar2(5) primary key,
     firstname varchar2(10),
@@ -124,11 +124,11 @@ create table emp_test (
     salary number(7)
     );
 
--- Å×ÀÌºí »èÁ¦ (drop table table¸í;)
+-- í…Œì´ë¸” ì‚­ì œ (drop table tableëª…;)
 drop table a;
 drop table emp_test;
 
---08.CreateTable.pdf 9ÆäÀÌÁö ¿¬½À¹®Á¦
+--08.CreateTable.pdf 9í˜ì´ì§€ ì—°ìŠµë¬¸ì œ
 create table MY_DATA1 (
     id number(4) primary key not null,
     name varchar2(10),
@@ -138,21 +138,21 @@ create table MY_DATA1 (
     
 drop table MY_DATA1;
 
--- ±âÁ¸¿¡ ÀÖ´Â Å×ÀÌºíÀ» Á¶ÇÕÇØ¼­ ¸¸µé ¼ö ÀÖ´Ù.
+-- ê¸°ì¡´ì— ìˆëŠ” í…Œì´ë¸”ì„ ì¡°í•©í•´ì„œ ë§Œë“¤ ìˆ˜ ìˆë‹¤.
 create table emp1 as select * from emp;
 select * from emp1;
 create table emp2 as select empno, ename, hiredate, sal from emp;
 select * from emp2;
 drop table emp1;
 
--- char(100) character °íÁ¤ 1, 10, 100 = 100 byte °ø°£
--- varchar(100) variable character º¯µ¿ 1byte, 10byte, 100byte 
--- ÀúÀå±æÀÌ¸¦ È®ÀÎ 2byte°¡ Á¸Àç
--- => oracle¿¡¼­ varchar¸¦ °³¼±ÇØ¼­ varchar2·Î ¸¸µé¾úÀ½
+-- char(100) character ê³ ì • 1, 10, 100 = 100 byte ê³µê°„
+-- varchar(100) variable character ë³€ë™ 1byte, 10byte, 100byte 
+-- ì €ì¥ê¸¸ì´ë¥¼ í™•ì¸ 2byteê°€ ì¡´ì¬
+-- => oracleì—ì„œ varcharë¥¼ ê°œì„ í•´ì„œ varchar2ë¡œ ë§Œë“¤ì—ˆìŒ
 
--- number(7) Á¤¼ö 7ÀÚ¸®
--- number(10,2) ¼ıÀÚ°¡ ÃÑ 10ÀÚ¸®, ¼Ò¼ıÁ¡ ÀÌÇÏ 2ÀÚ¸®
--- number Á¤¼ö 38ÀÚ¸® (default)
+-- number(7) ì •ìˆ˜ 7ìë¦¬
+-- number(10,2) ìˆ«ìê°€ ì´ 10ìë¦¬, ì†Œìˆ«ì  ì´í•˜ 2ìë¦¬
+-- number ì •ìˆ˜ 38ìë¦¬ (default)
     
 
 create table emp01 (
@@ -165,7 +165,7 @@ drop table emp01;
 CREATE TABLE DEPT01 (
     DEPTNO NUMBER(2),
     DNAME VARCHAR2(14),
-    LOC VARCHAR2(13)); --= varchar  13ÀÚ¸®
+    LOC VARCHAR2(13)); --= varchar  13ìë¦¬
     
 drop table dept01;
     
@@ -175,7 +175,7 @@ SELECT EMPNO, ENAME FROM EMP;
 
 select * from emp03;
 
--- 08.CreateTable.pdf ¿¬½À¹®Á¦ 22p
+-- 08.CreateTable.pdf ì—°ìŠµë¬¸ì œ 22p
 create table emp04 
 as 
 select empno, ename, sal from emp;
@@ -185,9 +185,9 @@ select * from emp04;
 create table emp05 as select * from emp where deptno = 10;
 select * from emp05;
 
--- Å×ÀÌºí ±¸Á¶¸¸ º¹»ç : where false°¡ µÇ´Â Á¶°ÇÀ¸·Î ÀÛ¼º
+-- í…Œì´ë¸” êµ¬ì¡°ë§Œ ë³µì‚¬ : where falseê°€ ë˜ëŠ” ì¡°ê±´ìœ¼ë¡œ ì‘ì„±
 create table emp01 as select * from emp where 1 = 0;
--- µ¥ÀÌÅÍ´Â ¾ø°í ÄÃ·³¸í¸¸ µ¥ÀÌÅÍ À¯Çü¸¸ º¹»ç
+-- ë°ì´í„°ëŠ” ì—†ê³  ì»¬ëŸ¼ëª…ë§Œ ë°ì´í„° ìœ í˜•ë§Œ ë³µì‚¬
 select * from emp01;
 desc emp01;
 
@@ -199,54 +199,54 @@ desc dept02;
 
 create table emp01 (
     empno number(4) primary key,
-    ename varchar2(20) default '¾Æ¹«°³',
+    ename varchar2(20) default 'ì•„ë¬´ê°œ',
     sal number(5) default 1000
     );
     
 desc emp01;
--- ÀÔ·Â
--- insert into table¸í values(°ª,....); : ¸ğµç ÄÃ·³ÀÇ µ¥ÀÌÅÍ¸¦ °ª¿¡ Ã¤¿ö¾ß ÇÑ´Ù.
--- insert into table¸í (ÄÃ·³,....) values(°ª,....); : ÄÃ·³¿¡ ÀÖ´Â µ¥ÀÌÅÍ¸¸ ÀÔ·Â
-insert into emp01 values(1, '·ÎÁ¦', 2000);
+-- ì…ë ¥
+-- insert into tableëª… values(ê°’,....); : ëª¨ë“  ì»¬ëŸ¼ì˜ ë°ì´í„°ë¥¼ ê°’ì— ì±„ì›Œì•¼ í•œë‹¤.
+-- insert into tableëª… (ì»¬ëŸ¼,....) values(ê°’,....); : ì»¬ëŸ¼ì— ìˆëŠ” ë°ì´í„°ë§Œ ì…ë ¥
+insert into emp01 values(1, 'ë¡œì œ', 2000);
 select * from emp01;
-insert into emp01 (empno, ename) values(2, 'Á¦´Ï');
+insert into emp01 (empno, ename) values(2, 'ì œë‹ˆ');
 insert into emp01 (empno, sal) values(3, 3000);
 
 select * from emp01;
-alter table emp01 add (job varchar2(20), hiredate date); -- ÄÃ·³À» Ãß°¡ÇÒ¶§
+alter table emp01 add (job varchar2(20), hiredate date); -- ì»¬ëŸ¼ì„ ì¶”ê°€í• ë•Œ
 select * from emp01;
-alter table emp01 modify(job varchar2(15)); -- ÄÃ·³À» º¯°æÇÒ¶§
+alter table emp01 modify(job varchar2(15)); -- ì»¬ëŸ¼ì„ ë³€ê²½í• ë•Œ
 desc emp01;
 
 drop table emp01;
 drop table dept02;
 --------------------------------------------------------------------
---08.CreateTable.pdf 30p ¿¬½À¹®Á¦
+--08.CreateTable.pdf 30p ì—°ìŠµë¬¸ì œ
 
---1. EMP01 Å×ÀÌºí¿¡ ¹®ÀÚ Å¸ÀÔÀÇ Á÷±Ş(JOB) Ä®·³À» Ãß°¡
---2. DEPT02 Å×ÀÌºí¿¡ ¹®ÀÚ Å¸ÀÔÀÇ ºÎ¼­Àå(DMGR) Ä®·³À» Ãß°¡
---3. emp01 Å×ÀÌºí¿¡¼­ Á÷±Ş(JOB) Ä®·³À» ÃÖ´ë 30±ÛÀÚ±îÁö ÀúÀåÇÒ ¼ö ÀÖ°Ô
---º¯°æÇØ º¸µµ·Ï ÇÏÀÚ. 
---4. DEPT02 Å×ÀÌºíÀÇ ºÎ¼­Àå(DMGR) Ä®·³À» ¼ıÀÚ Å¸ÀÔÀ¸·Î º¯°æÇØ º¾½Ã´Ù.
+--1. EMP01 í…Œì´ë¸”ì— ë¬¸ì íƒ€ì…ì˜ ì§ê¸‰(JOB) ì¹¼ëŸ¼ì„ ì¶”ê°€
+--2. DEPT02 í…Œì´ë¸”ì— ë¬¸ì íƒ€ì…ì˜ ë¶€ì„œì¥(DMGR) ì¹¼ëŸ¼ì„ ì¶”ê°€
+--3. emp01 í…Œì´ë¸”ì—ì„œ ì§ê¸‰(JOB) ì¹¼ëŸ¼ì„ ìµœëŒ€ 30ê¸€ìê¹Œì§€ ì €ì¥í•  ìˆ˜ ìˆê²Œ
+--ë³€ê²½í•´ ë³´ë„ë¡ í•˜ì. 
+--4. DEPT02 í…Œì´ë¸”ì˜ ë¶€ì„œì¥(DMGR) ì¹¼ëŸ¼ì„ ìˆ«ì íƒ€ì…ìœ¼ë¡œ ë³€ê²½í•´ ë´…ì‹œë‹¤.
 
 create table emp01 as select empno, ename, sal from emp where 1=0;
 create table dept02 as select * from dept where 1 = 0;
 
---1. EMP01 Å×ÀÌºí¿¡ ¹®ÀÚ Å¸ÀÔÀÇ Á÷±Ş(JOB) Ä®·³À» Ãß°¡
+--1. EMP01 í…Œì´ë¸”ì— ë¬¸ì íƒ€ì…ì˜ ì§ê¸‰(JOB) ì¹¼ëŸ¼ì„ ì¶”ê°€
 alter table emp01 add (job varchar2(20));
 select * from emp01;
 desc emp01;
 
---2. DEPT02 Å×ÀÌºí¿¡ ¹®ÀÚ Å¸ÀÔÀÇ ºÎ¼­Àå(DMGR) Ä®·³À» Ãß°¡
+--2. DEPT02 í…Œì´ë¸”ì— ë¬¸ì íƒ€ì…ì˜ ë¶€ì„œì¥(DMGR) ì¹¼ëŸ¼ì„ ì¶”ê°€
 alter table dept02 add (dmgr varchar2(20));
 desc dept02;
 
---3. emp01 Å×ÀÌºí¿¡¼­ Á÷±Ş(JOB) Ä®·³À» ÃÖ´ë 30±ÛÀÚ±îÁö ÀúÀåÇÒ ¼ö ÀÖ°Ô
---º¯°æÇØ º¸µµ·Ï ÇÏÀÚ. 
+--3. emp01 í…Œì´ë¸”ì—ì„œ ì§ê¸‰(JOB) ì¹¼ëŸ¼ì„ ìµœëŒ€ 30ê¸€ìê¹Œì§€ ì €ì¥í•  ìˆ˜ ìˆê²Œ
+--ë³€ê²½í•´ ë³´ë„ë¡ í•˜ì. 
 alter table emp01 modify (job varchar2(30));
 desc emp01;
 
---4. DEPT02 Å×ÀÌºíÀÇ ºÎ¼­Àå(DMGR) Ä®·³À» ¼ıÀÚ Å¸ÀÔÀ¸·Î º¯°æÇØ º¾½Ã´Ù.
+--4. DEPT02 í…Œì´ë¸”ì˜ ë¶€ì„œì¥(DMGR) ì¹¼ëŸ¼ì„ ìˆ«ì íƒ€ì…ìœ¼ë¡œ ë³€ê²½í•´ ë´…ì‹œë‹¤.
 alter table dept02 modify (dmgr number(20));
 desc dept02;
 
