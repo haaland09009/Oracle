@@ -71,8 +71,7 @@ select * from dept;
 select ename, job, sal from emp where deptno = (select deptno from dept where loc = 'DALLAS');
 
 --5. EMP 테이블에서 King에게 보고하는 모든 사원의 이름과 급여를 출력하는 SELECT문을 작성하시오.
-select ename, sal from emp where mgr in (select deptno from emp where ename ='KING');
--- select ename, sal from emp e where mgr = (select empno from emp where e.mgr = empno and mgr is null);
+select ename, sal from emp where mgr in (select empno from emp where ename ='KING');
 --select ename, sal from emp e where mgr in (select empno from emp where e.mgr = empno and ename = 'KING');
 
 --6. EMP 테이블에서 SALES 부서 사원의 이름,업무를 출력하는 SELECT문을 작성하시오.
