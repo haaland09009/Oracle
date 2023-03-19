@@ -1,18 +1,18 @@
--- °¡·Î ÇÕ°è
+-- ê°€ë¡œ í•©ê³„
 select deptno, sum(decode(job,'CLERK',sal)) CLERK,
 sum(decode(job,'MANAGER',sal)) MANAGER, 
 sum(decode(job,'PRESIDENT',sal)) PRESIDENT,
 sum(decode(job,'ANALYST',sal)) ANALYST,
 sum(decode(job,'SALESMAN',sal)) SALESMAN, 
-sum(sal) ÇÕ°è from emp group by rollup(deptno) order by deptno;
+sum(sal) í•©ê³„ from emp group by rollup(deptno) order by deptno;
 
--- rollup°ú cube´Â À§ ÄÚµå´Â °°Àº °á°ú°¡ ³ª¿ÔÀ¸³ª ´Ù¸¥ °ÍÀÓ.
+-- rollupê³¼ cubeëŠ” ìœ„ ì½”ë“œëŠ” ê°™ì€ ê²°ê³¼ê°€ ë‚˜ì™”ìœ¼ë‚˜ ë‹¤ë¥¸ ê²ƒì„.
 select deptno, sum(decode(job,'CLERK',sal)) CLERK,
 sum(decode(job,'MANAGER',sal)) MANAGER, 
 sum(decode(job,'PRESIDENT',sal)) PRESIDENT,
 sum(decode(job,'ANALYST',sal)) ANALYST,
 sum(decode(job,'SALESMAN',sal)) SALESMAN, 
-sum(sal) ÇÕ°è from emp group by CUBE(deptno) order by deptno;
+sum(sal) í•©ê³„ from emp group by CUBE(deptno) order by deptno;
 
 select deptno, sum(sal) from emp group by deptno order by deptno;
 select deptno, sum(sal) from emp group by rollup(deptno) order by deptno;
@@ -22,138 +22,138 @@ select deptno,job,sum(sal) from emp group by deptno,job order by deptno;
 select deptno, job,sum(sal) from emp group by rollup(deptno,job) order by deptno;
 select deptno, job,sum(sal) from emp group by cube(deptno,job) order by deptno;
 
--- GROUPING() ÇÔ¼ö: ¸¹ÀÌ »ç¿ëÇÏÁö ¾ÊÀ½
+-- GROUPING() í•¨ìˆ˜: ë§ì´ ì‚¬ìš©í•˜ì§€ ì•ŠìŒ
 select grouping(deptno), deptno, sum(sal) from emp group by rollup(deptno) order by deptno;
 
--- ¼­ºê Äõ¸®
--- È¸»ç¿¡¼­ Á¦ÀÏ ±Ş¿©°¡ ¸¹Àº »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
-select ename, max(sal) from emp group by ename; --¿Ã¹Ù¸¥ ÄÚµå°¡ ¾Æ´Ô. Á¦´ë·Î µÈ °á°ú°¡ ³ª¿ÀÁö ¾ÊÀ½.
+-- ì„œë¸Œ ì¿¼ë¦¬
+-- íšŒì‚¬ì—ì„œ ì œì¼ ê¸‰ì—¬ê°€ ë§ì€ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
+select ename, max(sal) from emp group by ename; --ì˜¬ë°”ë¥¸ ì½”ë“œê°€ ì•„ë‹˜. ì œëŒ€ë¡œ ëœ ê²°ê³¼ê°€ ë‚˜ì˜¤ì§€ ì•ŠìŒ.
 select ename, sal from emp;
 
 
--- È¸»ç¿¡¼­ Á¦ÀÏ ±Ş¿©°¡ ¸¹Àº »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
+-- íšŒì‚¬ì—ì„œ ì œì¼ ê¸‰ì—¬ê°€ ë§ì€ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
 select max(sal) from emp;
 select ename, sal from emp where sal = 5000;
--- À§ÀÇ ÄÚµå´Â µÎ ¹®ÀåÀ¸·Î µÇ¾î ÀÖ´Ù. -> ÇÑ ¹®ÀåÀ¸·Î ¸¸µé ÇÊ¿ä°¡ ÀÖ´Ù.
+-- ìœ„ì˜ ì½”ë“œëŠ” ë‘ ë¬¸ì¥ìœ¼ë¡œ ë˜ì–´ ìˆë‹¤. -> í•œ ë¬¸ì¥ìœ¼ë¡œ ë§Œë“¤ í•„ìš”ê°€ ìˆë‹¤.
             -- main query                -- sub query
-select ename, sal from emp where sal = (select max(sal) from emp); -- °ıÈ£ ¼Ó¿¡ ÄÚµå¸¦ ³ÖÀ¸¸é ±× ÄÚµå¸¦ ¸ÕÀú ½ÇÇà -> ¼­ºê Äõ¸®
+select ename, sal from emp where sal = (select max(sal) from emp); -- ê´„í˜¸ ì†ì— ì½”ë“œë¥¼ ë„£ìœ¼ë©´ ê·¸ ì½”ë“œë¥¼ ë¨¼ì € ì‹¤í–‰ -> ì„œë¸Œ ì¿¼ë¦¬
 
--- scottÀÇ ºÎ¼­¸í
+-- scottì˜ ë¶€ì„œëª…
 select dname from dept where deptno = (select deptno from emp where ename = 'SCOTT');
 
 -------------------------------------------------------------------------------------------------------------
---1. ±Ş¿©°¡ Á¦ÀÏ ÀûÀº »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
---2. °¡Àå »¡¸® ÀÔ»çÇÑ »ç¶÷ÀÇ ÀÌ¸§, ÀÔ»çÀÏ, ±Ş¿©, ±Ş¿©µî±Ş
---3. °¡Àå ÃÖ±Ù¿¡ ÀÔ»çÇÑ »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ±Ş¿©µî±Ş, ºÎ¼­¸í
---4. NEW YORK¿¡ ±Ù¹«ÇÏ´Â »ç¶÷ÀÇ ¸ğµç ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­ÄÚµå
---5. ALLEN°ú °°Àº ¾÷¹«¸¦ ¼öÇàÇÏ´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ¾÷¹«, COMM
---6. È¸»ç Æò±Õ ±Ş¿©º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­ÄÚµå
---7. È¸»ç Æò±Õº¸´Ù Àû°Ô ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­¸í ºÎ¼­¸í¼ø
---8. RESEARCH ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ¾÷¹«, ±Ş¿©µî±Ş, ºÎ¼­¸í
---9. 81³â¿¡ ÀÔ»çÇÑ »ç¶÷ Áß¿¡¼­ È¸»ç ±Ş¿© Æò±Õº¸´Ù ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­¸í, ±Ş¿©µî±Ş, ºÎ¼­¸í¼ø Á¤·Ä
+--1. ê¸‰ì—¬ê°€ ì œì¼ ì ì€ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
+--2. ê°€ì¥ ë¹¨ë¦¬ ì…ì‚¬í•œ ì‚¬ëŒì˜ ì´ë¦„, ì…ì‚¬ì¼, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰
+--3. ê°€ì¥ ìµœê·¼ì— ì…ì‚¬í•œ ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…
+--4. NEW YORKì— ê·¼ë¬´í•˜ëŠ” ì‚¬ëŒì˜ ëª¨ë“  ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œì½”ë“œ
+--5. ALLENê³¼ ê°™ì€ ì—…ë¬´ë¥¼ ìˆ˜í–‰í•˜ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ì—…ë¬´, COMM
+--6. íšŒì‚¬ í‰ê·  ê¸‰ì—¬ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì½”ë“œ
+--7. íšŒì‚¬ í‰ê· ë³´ë‹¤ ì ê²Œ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œëª… ë¶€ì„œëª…ìˆœ
+--8. RESEARCH ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ì—…ë¬´, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…
+--9. 81ë…„ì— ì…ì‚¬í•œ ì‚¬ëŒ ì¤‘ì—ì„œ íšŒì‚¬ ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œëª…, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…ìˆœ ì •ë ¬
 
---1. ±Ş¿©°¡ Á¦ÀÏ ÀûÀº »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
+--1. ê¸‰ì—¬ê°€ ì œì¼ ì ì€ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
 select ename, sal from emp where sal = (select min(sal) from emp);
 
---2. °¡Àå »¡¸® ÀÔ»çÇÑ »ç¶÷ÀÇ ÀÌ¸§, ÀÔ»çÀÏ, ±Ş¿©, ±Ş¿©µî±Ş
+--2. ê°€ì¥ ë¹¨ë¦¬ ì…ì‚¬í•œ ì‚¬ëŒì˜ ì´ë¦„, ì…ì‚¬ì¼, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰
 select ename, hiredate, sal, grade from emp, salgrade where sal between losal and hisal and
 hiredate = (select min(hiredate) from emp);
 
---3. °¡Àå ÃÖ±Ù¿¡ ÀÔ»çÇÑ »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ±Ş¿©µî±Ş, ºÎ¼­¸í
+--3. ê°€ì¥ ìµœê·¼ì— ì…ì‚¬í•œ ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…
 select ename, sal, grade, dname from emp e, dept d, salgrade where e.deptno = d.deptno and 
 e.sal between losal and hisal and hiredate = (select max(hiredate) from emp);
 
---4. NEW YORK¿¡ ±Ù¹«ÇÏ´Â »ç¶÷ÀÇ ¸ğµç ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ºÎ¼­ÄÚµå
+--4. NEW YORKì— ê·¼ë¬´í•˜ëŠ” ì‚¬ëŒì˜ ëª¨ë“  ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ë¶€ì„œì½”ë“œ
 select ename, job, hiredate, d.deptno from emp e, dept d where e.deptno = d.deptno and loc = 'NEW YORK';
-select ename, job, hiredate, deptno from emp where deptno = (select deptno from dept where loc = 'NEW YORK'); -- Á¤¼® Ç®ÀÌ
+select ename, job, hiredate, deptno from emp where deptno = (select deptno from dept where loc = 'NEW YORK'); -- ì •ì„ í’€ì´
 
---5. ALLEN°ú °°Àº ¾÷¹«¸¦ ¼öÇàÇÏ´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ¾÷¹«, COMM
-select ename, sal, job, comm from emp where job = (select job from emp where ename = 'ALLEN');
+--5. ALLENê³¼ ê°™ì€ ì—…ë¬´ë¥¼ ìˆ˜í–‰í•˜ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ì—…ë¬´, COMM
+select ename, sal, job, comm from emp where job = (select job from emp where ename = 'ALLEN') and ename != 'ALLEN';
 
---6. È¸»ç Æò±Õ ±Ş¿©º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­ÄÚµå
+--6. íšŒì‚¬ í‰ê·  ê¸‰ì—¬ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì½”ë“œ
 select ename, sal, deptno from emp where sal > (select avg(sal) from emp);
 
---7. È¸»ç Æò±Õº¸´Ù Àû°Ô ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­¸í ºÎ¼­¸í¼ø
+--7. íšŒì‚¬ í‰ê· ë³´ë‹¤ ì ê²Œ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œëª… ë¶€ì„œëª…ìˆœ
 select ename, sal, dname from emp e, dept d where e.deptno = d.deptno and sal < (select avg(sal) from emp) order by dname;
 
---8. RESEARCH ºÎ¼­¿¡ ±Ù¹«ÇÏ´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ¾÷¹«, ±Ş¿©µî±Ş, ºÎ¼­¸í
+--8. RESEARCH ë¶€ì„œì— ê·¼ë¬´í•˜ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ì—…ë¬´, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…
 select ename, sal, job, grade, dname from emp e, dept d, salgrade where e.deptno = d.deptno 
 and e.sal between losal and hisal and dname = 'RESEARCH';
 
---9. 81³â¿¡ ÀÔ»çÇÑ »ç¶÷ Áß¿¡¼­ È¸»ç ±Ş¿© Æò±Õº¸´Ù ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§, ±Ş¿©, ºÎ¼­¸í, ±Ş¿©µî±Ş, ºÎ¼­¸í¼ø Á¤·Ä
+--9. 81ë…„ì— ì…ì‚¬í•œ ì‚¬ëŒ ì¤‘ì—ì„œ íšŒì‚¬ ê¸‰ì—¬ í‰ê· ë³´ë‹¤ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œëª…, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…ìˆœ ì •ë ¬
 select ename, e.sal, dname, grade from emp e, dept d, salgrade where e.deptno = d.deptno and e.sal between losal and hisal
 and to_char(hiredate, 'yy') = '81' and sal > (select avg(sal) from emp) order by dname;
 
 -------------------------------------------------------------------------------------------------------------
---1. »ç¿ø Å×ÀÌºí¿¡¼­ BLAKEº¸´Ù ±Ş¿©°¡ ¸¹Àº »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, ±Ş¿©
+--1. ì‚¬ì› í…Œì´ë¸”ì—ì„œ BLAKEë³´ë‹¤ ê¸‰ì—¬ê°€ ë§ì€ ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬
 select empno, ename, sal from emp where sal > (select sal from emp where ename = 'BLAKE');
 
---2. »ç¿ø Å×ÀÌºí¿¡¼­ MILLERº¸´Ù ´Ê°Ô ÀÔ»çÇÑ »ç¿øÀÇ »ç¹ø, ÀÌ¸§, ÀÔ»çÀÏ
+--2. ì‚¬ì› í…Œì´ë¸”ì—ì„œ MILLERë³´ë‹¤ ëŠ¦ê²Œ ì…ì‚¬í•œ ì‚¬ì›ì˜ ì‚¬ë²ˆ, ì´ë¦„, ì…ì‚¬ì¼
 select empno, ename, hiredate from emp where hiredate > (select hiredate from emp where ename = 'MILLER');
 
---3. »ç¿ø Å×ÀÌºí¿¡¼­ »ç¿ø ÀüÃ¼ Æò±Õ ±Ş¿©º¸´Ù ±Ş¿©°¡ ¸¹Àº »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, ±Ş¿©
+--3. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ì‚¬ì› ì „ì²´ í‰ê·  ê¸‰ì—¬ë³´ë‹¤ ê¸‰ì—¬ê°€ ë§ì€ ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬
 select empno, ename, sal from emp where sal > (select avg(sal) from emp);
 
---4. »ç¿ø Å×ÀÌºí¿¡¼­ CLERK°ú °°Àº ºÎ¼­ÀÌ¸ç, »ç¹øÀÌ 7698ÀÎ Á÷¿øÀÇ ±Ş¿©º¸´Ù ¸¹Àº ±Ş¿©¸¦ ¹Ş´Â »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, ±Ş¿©
+--4. ì‚¬ì› í…Œì´ë¸”ì—ì„œ CLERKê³¼ ê°™ì€ ë¶€ì„œì´ë©°, ì‚¬ë²ˆì´ 7698ì¸ ì§ì›ì˜ ê¸‰ì—¬ë³´ë‹¤ ë§ì€ ê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ê¸‰ì—¬
 select empno, ename, sal from emp where deptno = (select deptno from emp where ename ='CLERK') 
 and sal > (select sal from emp where empno = '7698');
 
---5. »ç¿ø Å×ÀÌºí¿¡¼­ ºÎ¼­º° ÃÖ´ë ±Ş¿©¸¦ ¹Ş´Â »ç¿øµéÀÇ »ç¹ø, ÀÌ¸§, ºÎ¼­ÄÚµå, ±Ş¿© (¾î·Á¿ò)
+--5. ì‚¬ì› í…Œì´ë¸”ì—ì„œ ë¶€ì„œë³„ ìµœëŒ€ ê¸‰ì—¬ë¥¼ ë°›ëŠ” ì‚¬ì›ë“¤ì˜ ì‚¬ë²ˆ, ì´ë¦„, ë¶€ì„œì½”ë“œ, ê¸‰ì—¬ (ì–´ë ¤ì›€)
 select empno, ename, deptno, sal from emp where sal in (select max(sal) from emp group by deptno);
 select empno, ename, deptno, sal from emp where sal = any(select max(sal) from emp group by deptno);
 select empno, ename, deptno, sal from emp where sal = some(select max(sal) from emp group by deptno);
 -------------------------------------------------------------------------------------------------------------
--- 07.SubQuery.pdf 12ÆäÀÌÁö ¿¬½À¹®Á¦
---1. EMP Å×ÀÌºí¿¡¼­ enameÀÌ SCOTTÀÎ µ¥ÀÌÅÍ¿Í °°Àº ºÎ¼­(deptno)¿¡¼­ ±Ù¹«ÇÏ´Â »ç¿øÀÇ ÀÌ¸§(ename)°ú ºÎ¼­ ¹øÈ£(deptno)¸¦ Ãâ·ÂÇÏ´Â SQL ¹®À» ÀÛ¼ºÇØ º¸½Ã¿À.
+-- 07.SubQuery.pdf 12í˜ì´ì§€ ì—°ìŠµë¬¸ì œ
+--1. EMP í…Œì´ë¸”ì—ì„œ enameì´ SCOTTì¸ ë°ì´í„°ì™€ ê°™ì€ ë¶€ì„œ(deptno)ì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„(ename)ê³¼ ë¶€ì„œ ë²ˆí˜¸(deptno)ë¥¼ ì¶œë ¥í•˜ëŠ” SQL ë¬¸ì„ ì‘ì„±í•´ ë³´ì‹œì˜¤.
 select ename, deptno from emp where deptno = (select deptno from emp where ename = 'SCOTT');
 
---2. EMP Å×ÀÌºí¿¡¼­ enameÀÌ SCOTT¿Í µ¥ÀÌÅÍ¿Í µ¿ÀÏÇÑ Á÷±Ş(JOB)À» °¡Áø »ç¿øÀÇ ¸ğµç ÄÃ·³À» Ãâ·ÂÇÏ´Â SQL ¹®À» ÀÛ¼ºÇØ º¸½Ã¿À.
+--2. EMP í…Œì´ë¸”ì—ì„œ enameì´ SCOTTì™€ ë°ì´í„°ì™€ ë™ì¼í•œ ì§ê¸‰(JOB)ì„ ê°€ì§„ ì‚¬ì›ì˜ ëª¨ë“  ì»¬ëŸ¼ì„ ì¶œë ¥í•˜ëŠ” SQL ë¬¸ì„ ì‘ì„±í•´ ë³´ì‹œì˜¤.
 select * from emp where job = (select job from emp where ename = 'SCOTT');
 
---3. EMP Å×ÀÌºí¿¡¼­ enameÀÌ SCOTTÀÎ µ¥ÀÌÅÍÀÇ ±Ş¿©(SAL)¿Í µ¿ÀÏÇÏ°Å³ª ´õ ¸¹ÀÌ ¹Ş´Â »ç¿ø¸í(ename)°ú ±Ş¿©(sal)¸¦ Ãâ·ÂÇÏ½Ã¿À.
+--3. EMP í…Œì´ë¸”ì—ì„œ enameì´ SCOTTì¸ ë°ì´í„°ì˜ ê¸‰ì—¬(SAL)ì™€ ë™ì¼í•˜ê±°ë‚˜ ë” ë§ì´ ë°›ëŠ” ì‚¬ì›ëª…(ename)ê³¼ ê¸‰ì—¬(sal)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
 select ename, sal from emp where sal >= (select sal from emp where ename = 'SCOTT') ;
 
---4. EMP Å×ÀÌºí¿¡¼­ DEPT Å×ÀÌºíÀÇ LOC°¡ DALLASÀÎ »ç¿øÀÇ ÀÌ¸§(ename), ºÎ¼­ ¹øÈ£(deptno)¸¦ Ãâ·ÂÇÏ½Ã¿À.
+--4. EMP í…Œì´ë¸”ì—ì„œ DEPT í…Œì´ë¸”ì˜ LOCê°€ DALLASì¸ ì‚¬ì›ì˜ ì´ë¦„(ename), ë¶€ì„œ ë²ˆí˜¸(deptno)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
 select ename, deptno from emp where deptno = (select deptno from dept where loc = 'DALLAS');
 select ename, e.deptno from emp e, dept d where e.deptno = d.deptno and loc = 'DALLAS';
 
---5. EMP Å×ÀÌºí¿¡¼­ DEPT Å×ÀÌºíÀÇ dnameÀÌ SALES(¿µ¾÷ºÎ)ÀÎ ºÎ¼­¿¡¼­ ±Ù¹«ÇÏ´Â »ç¿øÀÇ ÀÌ¸§(ename)°ú ±Ş¿©(sal)¸¦ Ãâ·ÂÇÏ½Ã¿À.
+--5. EMP í…Œì´ë¸”ì—ì„œ DEPT í…Œì´ë¸”ì˜ dnameì´ SALES(ì˜ì—…ë¶€)ì¸ ë¶€ì„œì—ì„œ ê·¼ë¬´í•˜ëŠ” ì‚¬ì›ì˜ ì´ë¦„(ename)ê³¼ ê¸‰ì—¬(sal)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.
 select ename, sal from emp where deptno = (select deptno from dept where dname = 'SALES');
 SELECT ename, sal from emp e, dept d where e.deptno = d.deptno and dname = 'SALES';
 
---6. EMP Å×ÀÌºí¿¡¼­ Á÷¼Ó»ó°ü(mgr)ÀÇ ÀÌ¸§ÀÌ KINGÀÎ »ç¿øÀÇ ÀÌ¸§(ename)°ú ±Ş¿©(sal)¸¦ Ãâ·ÂÇÏ½Ã¿À. 
+--6. EMP í…Œì´ë¸”ì—ì„œ ì§ì†ìƒê´€(mgr)ì˜ ì´ë¦„ì´ KINGì¸ ì‚¬ì›ì˜ ì´ë¦„(ename)ê³¼ ê¸‰ì—¬(sal)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤. 
 select ename, sal from emp where mgr = (select empno from emp where ename = 'KING');
 select e1.ename, e1.sal from emp e1, emp e2 where e1.mgr = e2.empno and e2.ename = 'KING'; 
 
 -------------------------------------------------------------------------------------------------------------
 select deptno, min(sal) from emp group by deptno;
--- !!! WHEREÀı»Ó¸¸ ¾Æ´Ï¶ó HAVINGÀı¿¡µµ ¼­ºêÄõ¸® »ç¿ë °¡´É, ÇÏÁö¸¸ ORDER BY Àı¿¡´Â ¼­ºêÄõ¸®¸¦ »ç¿ëÇÒ ¼ö ¾ø´Ù. !!!
+-- !!! WHEREì ˆë¿ë§Œ ì•„ë‹ˆë¼ HAVINGì ˆì—ë„ ì„œë¸Œì¿¼ë¦¬ ì‚¬ìš© ê°€ëŠ¥, í•˜ì§€ë§Œ ORDER BY ì ˆì—ëŠ” ì„œë¸Œì¿¼ë¦¬ë¥¼ ì‚¬ìš©í•  ìˆ˜ ì—†ë‹¤. !!!
 select deptno, min(sal) from emp group by deptno 
 having min(sal) > (select min(sal) from emp where deptno = 20);
 
---select ename, sal from emp where sal = (select min(sal) from emp group by deptno); -- °ªÀÌ ¿©·¯°³ÀÌ±â ¶§¹®¿¡ ¿¡·¯ ¹ß»ı
+--select ename, sal from emp where sal = (select min(sal) from emp group by deptno); -- ê°’ì´ ì—¬ëŸ¬ê°œì´ê¸° ë•Œë¬¸ì— ì—ëŸ¬ ë°œìƒ
 
 -------------------------------------------------------------------------------------------------------------
---1. ºÎ¼­º°·Î ÀÔ»çÀÏÀÌ °¡Àå ºü¸¥ »ç¶÷ÀÇ ÀÌ¸§°ú ÀÔ»çÀÏ
---2. ¾÷¹«º°·Î °¡Àå ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
---3. ºÎ¼­º°·Î ±Ş¿©°¡ °¡Àå ÀûÀº »ç¶÷ÀÇ ÀÌ¸§, ¾÷¹«, ±Ş¿©, ºÎ¼­¸í
---4. ¾÷¹«º°·Î ÀÔ»ç°¡ °¡Àå ºü¸¥ »ç¶÷ÀÇ ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ±Ş¿©, ±Ş¿©µî±Ş, ºÎ¼­¸í
+--1. ë¶€ì„œë³„ë¡œ ì…ì‚¬ì¼ì´ ê°€ì¥ ë¹ ë¥¸ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ì…ì‚¬ì¼
+--2. ì—…ë¬´ë³„ë¡œ ê°€ì¥ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
+--3. ë¶€ì„œë³„ë¡œ ê¸‰ì—¬ê°€ ê°€ì¥ ì ì€ ì‚¬ëŒì˜ ì´ë¦„, ì—…ë¬´, ê¸‰ì—¬, ë¶€ì„œëª…
+--4. ì—…ë¬´ë³„ë¡œ ì…ì‚¬ê°€ ê°€ì¥ ë¹ ë¥¸ ì‚¬ëŒì˜ ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª…
 
---1. ºÎ¼­º°·Î ÀÔ»çÀÏÀÌ °¡Àå ºü¸¥ »ç¶÷ÀÇ ÀÌ¸§°ú ÀÔ»çÀÏ
+--1. ë¶€ì„œë³„ë¡œ ì…ì‚¬ì¼ì´ ê°€ì¥ ë¹ ë¥¸ ì‚¬ëŒì˜ ì´ë¦„ê³¼ ì…ì‚¬ì¼
 select ename, hiredate from emp where hiredate in (select min(hiredate) from emp group by deptno);
 
---2. ¾÷¹«º°·Î °¡Àå ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿©
+--2. ì—…ë¬´ë³„ë¡œ ê°€ì¥ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬
 select ename, job, sal from emp where sal in (select max(sal) from emp group by job);
 
---3. ºÎ¼­º°·Î ±Ş¿©°¡ °¡Àå ÀûÀº »ç¶÷ÀÇ ÀÌ¸§, ¾÷¹«, ±Ş¿©, ºÎ¼­¸í
+--3. ë¶€ì„œë³„ë¡œ ê¸‰ì—¬ê°€ ê°€ì¥ ì ì€ ì‚¬ëŒì˜ ì´ë¦„, ì—…ë¬´, ê¸‰ì—¬, ë¶€ì„œëª…
 select ename, job, sal, dname from emp e, dept d where e.deptno = d.deptno and 
 sal in (select min(sal) from emp group by deptno);
 
-----4. ¾÷¹«º°·Î ÀÔ»ç°¡ °¡Àå ºü¸¥ »ç¶÷ÀÇ ÀÌ¸§, ¾÷¹«, ÀÔ»çÀÏ, ±Ş¿©, ±Ş¿©µî±Ş, ºÎ¼­¸í (job°ú hiredate¸¦ ¹­¾î¼­)
+----4. ì—…ë¬´ë³„ë¡œ ì…ì‚¬ê°€ ê°€ì¥ ë¹ ë¥¸ ì‚¬ëŒì˜ ì´ë¦„, ì—…ë¬´, ì…ì‚¬ì¼, ê¸‰ì—¬, ê¸‰ì—¬ë“±ê¸‰, ë¶€ì„œëª… (jobê³¼ hiredateë¥¼ ë¬¶ì–´ì„œ)
 select ename, job, hiredate, sal, grade, dname from emp e, dept d, salgrade where e.deptno = d.deptno
 and e.sal between losal and hisal and (job, hiredate) in (select job, min(hiredate) from emp group by job);
 
--- in ´ë½Å¿¡ any, someÀ¸·Î ÇØµµ µÈ´Ù
+-- in ëŒ€ì‹ ì— any, someìœ¼ë¡œ í•´ë„ ëœë‹¤
 -------------------------------------------------------------------------------------------------------------
 
 select ename, sal from emp where sal > (select min(sal) from emp where job = 'SALESMAN')
@@ -168,24 +168,24 @@ select deptno, round(avg(sal)) from emp group by deptno order by deptno;
 --20	2175
 --30	1567
 
---1. ¸ğµç ºÎ¼­ÀÇ Æò±Õ±Ş¿©º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿© -> 2917º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
-select ename, sal from emp where sal > all(select avg(sal) from emp group by deptno); -- 2917º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
---2. ¾î´À ºÎ¼­³ª Æò±Õº¸´Ùµµ ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¶÷ÀÇ ÀÌ¸§°ú ±Ş¿© -> 1567º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
-select ename, sal from emp where sal > any(select avg(sal) from emp group by deptno); -- 1567º¸´Ù ¸¹Àº »ç¶÷
+--1. ëª¨ë“  ë¶€ì„œì˜ í‰ê· ê¸‰ì—¬ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬ -> 2917ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
+select ename, sal from emp where sal > all(select avg(sal) from emp group by deptno); -- 2917ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
+--2. ì–´ëŠ ë¶€ì„œë‚˜ í‰ê· ë³´ë‹¤ë„ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ëŒì˜ ì´ë¦„ê³¼ ê¸‰ì—¬ -> 1567ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
+select ename, sal from emp where sal > any(select avg(sal) from emp group by deptno); -- 1567ë³´ë‹¤ ë§ì€ ì‚¬ëŒ
 
--- À§¿¡ ÄÚµå ¼öÁ¤ -> ±ÇÀåÇÏ´Â ÄÚµå (±×·ìÇÔ¼ö ÁßÃ¸, ¿À¶óÅ¬Àº °¡´ÉÇÏÁö¸¸ mysql¿¡¼­´Â ¾È µÊ)
-select ename, sal from emp where sal > (select max(avg(sal)) from emp group by deptno); -- 2917º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
-select ename, sal from emp where sal > (select min(avg(sal)) from emp group by deptno); -- 2917º¸´Ù ¸¹ÀÌ ¹Ş´Â »ç¶÷
+-- ìœ„ì— ì½”ë“œ ìˆ˜ì • -> ê¶Œì¥í•˜ëŠ” ì½”ë“œ (ê·¸ë£¹í•¨ìˆ˜ ì¤‘ì²©, ì˜¤ë¼í´ì€ ê°€ëŠ¥í•˜ì§€ë§Œ mysqlì—ì„œëŠ” ì•ˆ ë¨)
+select ename, sal from emp where sal > (select max(avg(sal)) from emp group by deptno); -- 2917ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
+select ename, sal from emp where sal > (select min(avg(sal)) from emp group by deptno); -- 2917ë³´ë‹¤ ë§ì´ ë°›ëŠ” ì‚¬ëŒ
 
--- ½Ö ºñ±³
+-- ìŒ ë¹„êµ
 select empno, sal, deptno from emp where (sal, deptno) in (select sal, deptno from emp where deptno = 30 
 and comm is not null);
 
--- ³ª´²¼­ ºñ±³
+-- ë‚˜ëˆ ì„œ ë¹„êµ
 --select empno, sal, deptno from emp where sal in (select sal from emp where deptno = 30 
 --and comm is not null) and deptno in (select deptno from emp where deptno = 30 and comm is not null);
 
--- ½ÖÀ¸·Î ºñ±³ÇÑ °Í°ú ³ª´²¼­ ºñ±³ÇÑ °ÍÀº °á°ú°¡ ´Ù¸§ (ÁÖÀÇ) -> Â÷ÀÌ ¿ø¸® ÀÌÇØÇÏ±â 
+-- ìŒìœ¼ë¡œ ë¹„êµí•œ ê²ƒê³¼ ë‚˜ëˆ ì„œ ë¹„êµí•œ ê²ƒì€ ê²°ê³¼ê°€ ë‹¤ë¦„ (ì£¼ì˜) -> ì°¨ì´ ì›ë¦¬ ì´í•´í•˜ê¸° 
 select empno, job, deptno from emp where (job, deptno) in (select job, deptno from emp where empno in (7369, 7499));
 s
 select empno, job, deptno from emp where job in (select job from emp where empno in (7369, 7499))
@@ -194,17 +194,17 @@ and deptno in (select deptno from emp where empno in (7369, 7499));
 ---------------
 select empno, job, deptno from emp where empno in (7369, 7499);
 
---!! ÁÖÀÇ »çÇ× !!
---1. parewise ºñ±³ : µÎ°³ ÄÃ·³ ÀÌ»ó °°ÀÌ ÀÏÄ¡
---2. nonparewise ºñ±³: µÎ°³ ÄÃ·³ µû·Î µû·Î ÀÏÄ¡
+--!! ì£¼ì˜ ì‚¬í•­ !!
+--1. parewise ë¹„êµ : ë‘ê°œ ì»¬ëŸ¼ ì´ìƒ ê°™ì´ ì¼ì¹˜
+--2. nonparewise ë¹„êµ: ë‘ê°œ ì»¬ëŸ¼ ë”°ë¡œ ë”°ë¡œ ì¼ì¹˜
 
 -------------------------------------------------------------------------------------------------------------
---07.SubQuery.pdf 30ÆäÀÌÁö ¿¬½À¹®Á¦
--- emp Å×ÀÌºí¿¡¼­ ºÎ¼­º°·Î °¡Àå ±Ş¿©¸¦ ¸¹ÀÌ ¹Ş´Â »ç¿øÀÇ »ç¿ø ¹øÈ£(empno), »ç¿øÀÌ¸§(ename), ±Ş¿©(sal), ºÎ¼­¹øÈ£(deptno)¸¦ Ãâ·ÂÇÏ½Ã¿À.(IN ¿¬»êÀÚ ÀÌ¿ë)
+--07.SubQuery.pdf 30í˜ì´ì§€ ì—°ìŠµë¬¸ì œ
+-- emp í…Œì´ë¸”ì—ì„œ ë¶€ì„œë³„ë¡œ ê°€ì¥ ê¸‰ì—¬ë¥¼ ë§ì´ ë°›ëŠ” ì‚¬ì›ì˜ ì‚¬ì› ë²ˆí˜¸(empno), ì‚¬ì›ì´ë¦„(ename), ê¸‰ì—¬(sal), ë¶€ì„œë²ˆí˜¸(deptno)ë¥¼ ì¶œë ¥í•˜ì‹œì˜¤.(IN ì—°ì‚°ì ì´ìš©)
 select empno, ename, sal, deptno from emp where sal in (select max(sal) from emp group by deptno);
-select empno, ename, sal, deptno from emp where (deptno, sal) in (select deptno, max(sal) from emp group by deptno); -- ±ÇÀå
+select empno, ename, sal, deptno from emp where (deptno, sal) in (select deptno, max(sal) from emp group by deptno); -- ê¶Œì¥
 
--- emp Å×ÀÌºí¿¡¼­ Á÷±Ş(JOB)ÀÌ MANAGERÀÎ »ç¶÷ÀÌ ¼ÓÇÑ ºÎ¼­ÀÇ ºÎ¼­ ¹øÈ£(deptno)¿Í ºÎ¼­¸í(dname)°ú Áö¿ª(loc)À» Ãâ·ÂÇÏ½Ã¿À.
+-- emp í…Œì´ë¸”ì—ì„œ ì§ê¸‰(JOB)ì´ MANAGERì¸ ì‚¬ëŒì´ ì†í•œ ë¶€ì„œì˜ ë¶€ì„œ ë²ˆí˜¸(deptno)ì™€ ë¶€ì„œëª…(dname)ê³¼ ì§€ì—­(loc)ì„ ì¶œë ¥í•˜ì‹œì˜¤.
 select e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno and job = 'MANAGER';
 select deptno, dname, loc from dept where deptno in (select deptno from emp where job='MANAGER') order by deptno;
 
