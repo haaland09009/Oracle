@@ -86,7 +86,7 @@ select ename, job from emp where deptno = 10 and job in (select job from emp whe
 
 --(모름)-- --9. EMP 테이블에서 FORD와 업무도 월급도 같은 사원의 모든 정보를 출력하는 SELECT문을 작성하시오
 select * from emp where (job, sal) = (select job, sal from emp where ename = 'FORD') and ename != 'FORD';
---select * from emp where job = (select job from emp where ename = 'FORD') and sal =(select sal from emp where ename = 'FORD');
+--select * from emp where job = (select job from emp where ename = 'FORD') and sal = (select sal from emp where ename='FORD') and ename != 'FORD';
 
 ----------------------------------------------------------------------------------------------------------
 --10. EMP 테이블에서 업무가 JONES와 같거나 월급이 FORD이상인 사원의 정보를 이름,업무,부서번호,급여를 출력하는 SELECT문을 작성
