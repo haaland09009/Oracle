@@ -15,7 +15,9 @@ select * from emp_v1;
 
 -- 뷰를 삭제하는 방법
 drop view emp_v1;
+
 ------------------------------------------------
+
 create or replace view emp_v1 as select w.ename worker, m.ename manager from emp w, emp m
 where w.mgr = m.empno;
 
