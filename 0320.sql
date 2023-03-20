@@ -1,16 +1,19 @@
+
 create view emp_v1 as select empno, ename, job, deptno from emp where deptno = 10;
--- view : ½ÇÁ¦ µ¥ÀÌÅÍ´Â ¾øÁö¸¸ select¹®À» ½ÇÇàÇÏ¿© µ¥ÀÌÅÍ¸¦ °¡Á®¿Í¼­ ÁøÂ¥ Å×ÀÌºíÃ³·³ »ç¿ë
--- view : ½ÇÁ¦ Å×ÀÌºíÀº ¾øÁö¸¸ ÀÖ´Â °ÍÃ³·³ »ç¿ë
+
+-- view : ì‹¤ì œ ë°ì´í„°ëŠ” ì—†ì§€ë§Œ selectë¬¸ì„ ì‹¤í–‰í•˜ì—¬ ë°ì´í„°ë¥¼ ê°€ì ¸ì™€ì„œ ì§„ì§œ í…Œì´ë¸”ì²˜ëŸ¼ ì‚¬ìš©
+
+-- view : ì‹¤ì œ í…Œì´ë¸”ì€ ì—†ì§€ë§Œ ìžˆëŠ” ê²ƒì²˜ëŸ¼ ì‚¬ìš©
 select * from emp_v1;
--- ¾Æ·¡ ¼Ò½ºÄÚµå´Â ¿¡·¯ ¹ß»ý
+-- ì•„ëž˜ ì†ŒìŠ¤ì½”ë“œëŠ” ì—ëŸ¬ ë°œìƒ
 create view emp_v1 as select empno, ename, job, e.deptno, dname from emp e, dept d where e.deptno = d.deptno;
 
 
--- ºä »ý¼º
+-- ë·° ìƒì„±
 create or replace view emp_v1 as select empno, ename, job, e.deptno, dname from emp e, dept d where e.deptno = d.deptno;
 select * from emp_v1;
 
--- ºä¸¦ »èÁ¦ÇÏ´Â ¹æ¹ý
+-- ë·°ë¥¼ ì‚­ì œí•˜ëŠ” ë°©ë²•
 drop view emp_v1;
 ------------------------------------------------
 create or replace view emp_v1 as select w.ename worker, m.ename manager from emp w, emp m
@@ -18,133 +21,133 @@ where w.mgr = m.empno;
 
 select * from emp_v1;
 
--- ¾Æ·¡ ¼Ò½ºÄÚµå´Â ¿¡·¯ ¹ß»ý, !! Ç×»ó ÄÃ·³ ¿·¿¡ º°ÄªÀ» ²À ½áÁà¾ßÇÔ !!
+-- ì•„ëž˜ ì†ŒìŠ¤ì½”ë“œëŠ” ì—ëŸ¬ ë°œìƒ, !! í•­ìƒ ì»¬ëŸ¼ ì˜†ì— ë³„ì¹­ì„ ê¼­ ì¨ì¤˜ì•¼í•¨ !!
 create or replace view emp_v1 as select w.ename, m.ename from emp w, emp m
 where w.mgr = m.empno;
--- ¾Æ´Ï¸é ºä µÚ¿¡ º°ÄªÀ» »ç¿ëÇÑ´Ù.
+-- ì•„ë‹ˆë©´ ë·° ë’¤ì— ë³„ì¹­ì„ ì‚¬ìš©í•œë‹¤.
 create or replace view emp_v1(worker, manager) as select w.ename, m.ename from emp w, emp m
 where w.mgr = m.empno;
 
 select * from emp_v1;
 ------------------------------------------------
--- ºä¸¦ Å×ÀÌºíÃ³·³ »ç¿ë °¡´É
-select empno, ename, job, manager from emp, emp_v1 where ename = worker; -- worker´Â À§¿¡¼­ ¼³Á¤ÇÑ ename
+-- ë·°ë¥¼ í…Œì´ë¸”ì²˜ëŸ¼ ì‚¬ìš© ê°€ëŠ¥
+select empno, ename, job, manager from emp, emp_v1 where ename = worker; -- workerëŠ” ìœ„ì—ì„œ ì„¤ì •í•œ ename
 ------------------------------------------------
-CREATE OR REPLACE VIEW v_emp2 (»ç¿ø¹øÈ£, ÀÌ¸§, ºÎ¼­¹øÈ£) 
+CREATE OR REPLACE VIEW v_emp2 (ì‚¬ì›ë²ˆí˜¸, ì´ë¦„, ë¶€ì„œë²ˆí˜¸) 
 AS SELECT empno, ename, deptno FROM emp WHERE deptno=20;
 
 select * from v_emp2;
--- ºä¸¦ »ç¿ëÇÏ¸é ¸¶Ä¡ Å×ÀÌºíÃ³·³ »ç¿ë °¡´É
+-- ë·°ë¥¼ ì‚¬ìš©í•˜ë©´ ë§ˆì¹˜ í…Œì´ë¸”ì²˜ëŸ¼ ì‚¬ìš© ê°€ëŠ¥
 ------------------------------------------------
 --11.View,Sequence,Index.pdf 10p
 
--- ¾Æ·¡ ¼Ò½ºÄÚµå´Â ¿¡·¯ ¹ß»ý sal*12¶ó´Â ÄÃ·³Àº emp¿¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¹Ç·Î
+-- ì•„ëž˜ ì†ŒìŠ¤ì½”ë“œëŠ” ì—ëŸ¬ ë°œìƒ sal*12ë¼ëŠ” ì»¬ëŸ¼ì€ empì— ì¡´ìž¬í•˜ì§€ ì•Šìœ¼ë¯€ë¡œ
 create or replace view v_emp2 as select empno, ename, sal*12 from emp;
--- join µîÀ¸·Î °°Àº ÄÃ·³¸íÀÏ ¶§´Â º°ÄªÀ» »ç¿ëÇÏ°Å³ª view µÚ¿¡ ÄÃ·³¸íÀ» ½á¼­ ¼­·Î ´Ù¸£°Ô º¯°æÇØ¾ß ÇÑ´Ù.
--- ¾Æ·¡ ÄÚµå¿Í °°ÀÌ½ÄÀ¸·Î ¸¸µé¾îÁø ÄÃ·³µµ º°ÄªÀ» ÁöÁ¤ÇØÁÖ¾î¾ß ÇÑ´Ù.
+-- join ë“±ìœ¼ë¡œ ê°™ì€ ì»¬ëŸ¼ëª…ì¼ ë•ŒëŠ” ë³„ì¹­ì„ ì‚¬ìš©í•˜ê±°ë‚˜ view ë’¤ì— ì»¬ëŸ¼ëª…ì„ ì¨ì„œ ì„œë¡œ ë‹¤ë¥´ê²Œ ë³€ê²½í•´ì•¼ í•œë‹¤.
+-- ì•„ëž˜ ì½”ë“œì™€ ê°™ì´ì‹ìœ¼ë¡œ ë§Œë“¤ì–´ì§„ ì»¬ëŸ¼ë„ ë³„ì¹­ì„ ì§€ì •í•´ì£¼ì–´ì•¼ í•œë‹¤.
 create or replace view v_emp2 as select empno, ename, sal*12 year_sal from emp;
 select * from v_emp2;
 ------------------------------------------------
--- ºÎ¼­º° ±Þ¿©ÇÕ°è, Æò±Õ±Þ¿©(¹Ý¿Ã¸²)¸¦ ºÎ¼­ÄÚµå, ±Þ¿©ÇÕ°è, Æò±Õ±Þ¿©¸¦ °¡Áø emp_v2¸¦ ¸¸µé±â
-create or replace view emp_v2 as select deptno, sum(sal) ±Þ¿©ÇÕ°è, round(avg(sal)) Æò±Õ±Þ¿©
+-- ë¶€ì„œë³„ ê¸‰ì—¬í•©ê³„, í‰ê· ê¸‰ì—¬(ë°˜ì˜¬ë¦¼)ë¥¼ ë¶€ì„œì½”ë“œ, ê¸‰ì—¬í•©ê³„, í‰ê· ê¸‰ì—¬ë¥¼ ê°€ì§„ emp_v2ë¥¼ ë§Œë“¤ê¸°
+create or replace view emp_v2 as select deptno, sum(sal) ê¸‰ì—¬í•©ê³„, round(avg(sal)) í‰ê· ê¸‰ì—¬
 from emp group by deptno order by deptno;
--- ÇÔ¼ö°¡ µé¾îÀÖ´Â °ÍÀº ÄÃ·³À¸·Î »ç¿ëÇÒ ¼ö ¾ø±â ¶§¹®¿¡ º°ÄªÀ» »ç¿ëÇØÁà¾ß ÇÑ´Ù.
+-- í•¨ìˆ˜ê°€ ë“¤ì–´ìžˆëŠ” ê²ƒì€ ì»¬ëŸ¼ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ì—†ê¸° ë•Œë¬¸ì— ë³„ì¹­ì„ ì‚¬ìš©í•´ì¤˜ì•¼ í•œë‹¤.
 select * from emp_v2;
 
--- !  ÇÔ¼ö°¡ Æ÷ÇÔµÈ ÄÃ·³µµ ¹Ýµå½Ã º°ÄªÀ» »ç¿ëÇÏ¿© ÄÃ·³¸íÀ» º¯°æÇØ¾ß ÇÑ´Ù.  !
+-- !  í•¨ìˆ˜ê°€ í¬í•¨ëœ ì»¬ëŸ¼ë„ ë°˜ë“œì‹œ ë³„ì¹­ì„ ì‚¬ìš©í•˜ì—¬ ì»¬ëŸ¼ëª…ì„ ë³€ê²½í•´ì•¼ í•œë‹¤.  !
 create or replace view emp_v2 (deptno, sum_sal, avg_sal) 
 as select deptno, sum(sal), round(avg(sal)) from emp group by deptno order by deptno;
 
 select * from emp_v2;
 
--- º»ÀÎ ºÎ¼­ Æò±Õº¸´Ù ±Þ¿©¸¦ ¸¹ÀÌ ¹Þ´Â »ç¶÷ÀÇ ÀÌ¸§, ±Þ¿©, ºÎ¼­ÄÚµå, ºÎ¼­±Þ¿© Æò±Õ
--- avg_salÀº À§¿¡ emp_v2 ºä¿¡¼­ ¼³Á¤ÇÑ ÄÃ·³¸íÀÌ´Ù
+-- ë³¸ì¸ ë¶€ì„œ í‰ê· ë³´ë‹¤ ê¸‰ì—¬ë¥¼ ë§Žì´ ë°›ëŠ” ì‚¬ëžŒì˜ ì´ë¦„, ê¸‰ì—¬, ë¶€ì„œì½”ë“œ, ë¶€ì„œê¸‰ì—¬ í‰ê· 
+-- avg_salì€ ìœ„ì— emp_v2 ë·°ì—ì„œ ì„¤ì •í•œ ì»¬ëŸ¼ëª…ì´ë‹¤
 select ename, sal, e.deptno, avg_sal from emp e, emp_v2 v where e.deptno = v.deptno;
 ------------------------------------------------
 
-select * from emp03; -- ³ªÁß¿¡ ·ÎÁ¦ ÄÃ·³ Ãß°¡ÇØ¾ßÇÔ. 0317
+select * from emp03; -- ë‚˜ì¤‘ì— ë¡œì œ ì»¬ëŸ¼ ì¶”ê°€í•´ì•¼í•¨. 0317
 create or replace view v_emp03 as select * from emp03;
 select * from v_emp03;
 
--- ºä¸¦ ¼öÁ¤Çß´õ´Ï ¿øº» µ¥ÀÌÅÍµµ ¼öÁ¤µÇ¾ú´Ù. -> °°Àº Á¶°ÇÀÏ ¶§
+-- ë·°ë¥¼ ìˆ˜ì •í–ˆë”ë‹ˆ ì›ë³¸ ë°ì´í„°ë„ ìˆ˜ì •ë˜ì—ˆë‹¤. -> ê°™ì€ ì¡°ê±´ì¼ ë•Œ
 delete from v_emp03 where empno = 1111;
 select * from emp03;
-insert into v_emp03 values(1234,'Á¦½Ã',5000); -- °¡´É
+insert into v_emp03 values(1234,'ì œì‹œ',5000); -- ê°€ëŠ¥
 
 
--- ºä ¼öÁ¤¿¡´Â Á¦ÇÑÀÌ ÀÖ´Ù. °­ÀÇÀÚ·á 12p Âü°í
- -- !! VIEW°¡ ´ÙÀ½À» Æ÷ÇÔ ÇÑ´Ù¸é ÇàÀ» Á¦°ÅÇÒ ¼ö ¾ø½À´Ï´Ù. !!
-    -- ±×·ì ÇÔ¼ö
-    -- GROUP BYÀý
-    -- DISTINCTÅ°¿öµå
+-- ë·° ìˆ˜ì •ì—ëŠ” ì œí•œì´ ìžˆë‹¤. ê°•ì˜ìžë£Œ 12p ì°¸ê³ 
+ -- !! VIEWê°€ ë‹¤ìŒì„ í¬í•¨ í•œë‹¤ë©´ í–‰ì„ ì œê±°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤. !!
+    -- ê·¸ë£¹ í•¨ìˆ˜
+    -- GROUP BYì ˆ
+    -- DISTINCTí‚¤ì›Œë“œ
     
 select * from emp_v2;
-delete from emp_v2 where deptno = 10; -- µ¥ÀÌÅÍ°¡ ¼öÁ¤µÇÁö ¾Ê´Â´Ù. ¿Ö?
-insert into emp_v2 values(40, 4000, 2500); -- ¿¡·¯ ¹ß»ý
+delete from emp_v2 where deptno = 10; -- ë°ì´í„°ê°€ ìˆ˜ì •ë˜ì§€ ì•ŠëŠ”ë‹¤. ì™œ?
+insert into emp_v2 values(40, 4000, 2500); -- ì—ëŸ¬ ë°œìƒ
 ------------------------------------------------
 -- 14p 
--- check option : where Á¶°Ç¿¡ ¸ÂÁö ¾Ê´Â µ¥ÀÌÅÍ´Â ÀÔ·Â,¼öÁ¤,»èÁ¦ÇÒ ¼ö ¾ø´Ù.
+-- check option : where ì¡°ê±´ì— ë§žì§€ ì•ŠëŠ” ë°ì´í„°ëŠ” ìž…ë ¥,ìˆ˜ì •,ì‚­ì œí•  ìˆ˜ ì—†ë‹¤.
 create or replace view view_chk30 as select empno, ename, sal, comm, deptno
 from emp where deptno = 30 with check option;
--- ºÎ¼­ÄÚµå 30ÀÎ µ¥ÀÌÅÍ¸¸ µé¾î°¥ ¼ö ÀÖ´Ù.
+-- ë¶€ì„œì½”ë“œ 30ì¸ ë°ì´í„°ë§Œ ë“¤ì–´ê°ˆ ìˆ˜ ìžˆë‹¤.
 
-update view_chk30 set deptno = 20; -- ¿¡·¯ ¹ß»ý
+update view_chk30 set deptno = 20; -- ì—ëŸ¬ ë°œìƒ
 ------------------------------------------------
--- read only 16p Âü°í
+-- read only 16p ì°¸ê³ 
  CREATE OR REPLACE VIEW v_Read_Only AS
 SELECT empno, ename, deptno FROM emp WHERE deptno = 10 WITH READ ONLY;
--- ´Ü¼øÈ÷ ÀÐ±â ¸¸ ÇÒ ¼ö ÀÖ°í µ¥ÀÌÅÍ´Â ÀÔ·ÂÇÏÁö ¸øÇÑ´Ù.
+-- ë‹¨ìˆœížˆ ì½ê¸° ë§Œ í•  ìˆ˜ ìžˆê³  ë°ì´í„°ëŠ” ìž…ë ¥í•˜ì§€ ëª»í•œë‹¤.
 ------------------------------------------------
--- !! Áß¿ä !! ÀÎ¶óÀÎ ºä : ºä¸¦ ÀúÀåÇÏÁö ¾Ê°í ÇÑ¹ø¸¸ »ç¿ëÇÏ´Â °æ¿ì
--- ºÎ¼­Æò±Õ ±Þ¿©º¸´Ù ¸¹ÀÌ ¹Þ´Â »ç¶÷
+-- !! ì¤‘ìš” !! ì¸ë¼ì¸ ë·° : ë·°ë¥¼ ì €ìž¥í•˜ì§€ ì•Šê³  í•œë²ˆë§Œ ì‚¬ìš©í•˜ëŠ” ê²½ìš°
+-- ë¶€ì„œí‰ê·  ê¸‰ì—¬ë³´ë‹¤ ë§Žì´ ë°›ëŠ” ì‚¬ëžŒ
 select empno, ename, sal, deptno from emp e 
 where sal > (select round(avg(sal)) from emp where e.deptno = deptno);
 
--- ¿¡·¯ ¹ß»ý, ±×·ì ÇÔ¼ö¿Í ¾²ÀÌ´Â ÄÃ·³Àº group by¿¡µµ ½áÁà¾ßÇÔ.
+-- ì—ëŸ¬ ë°œìƒ, ê·¸ë£¹ í•¨ìˆ˜ì™€ ì“°ì´ëŠ” ì»¬ëŸ¼ì€ group byì—ë„ ì¨ì¤˜ì•¼í•¨.
 select empno, ename, sal, deptno, avg(sal) from emp e 
 where sal > (select round(avg(sal)) from emp where e.deptno = deptno); 
 
--- ÄÃ·³¿¡ Æò±Õ±Þ¿©µµ Æ÷ÇÔÇÏ¿© Ãâ·ÂÇÏ°í ½ÍÀ» ¶§
+-- ì»¬ëŸ¼ì— í‰ê· ê¸‰ì—¬ë„ í¬í•¨í•˜ì—¬ ì¶œë ¥í•˜ê³  ì‹¶ì„ ë•Œ
 select * from emp_v2;
 
 select empno, ename, sal, e.deptno, avg_sal from emp e, emp_v2 v
 where e.deptno = v.deptno;
 
--- emp_v2 ¸¸¾à view°¡ ¾øÀ» ¶§? 
--- from µÚ¿¡ sub query¸¦ »ç¿ëÇÏ¿© Å×ÀÌºíÃ³·³ »ç¿ëÇÏ´Â °ÍÀ» ÀÎ¶óÀÎ ºä¶ó°í ÇÑ´Ù.
--- ÀÎ¶óÀÎ ºä´Â ºä¿¡ µî·ÏÀÌ µÇÁö ¾Ê´Â´Ù. ÇÑ ¹ø¸¸ »ç¿ë °¡´É
+-- emp_v2 ë§Œì•½ viewê°€ ì—†ì„ ë•Œ? 
+-- from ë’¤ì— sub queryë¥¼ ì‚¬ìš©í•˜ì—¬ í…Œì´ë¸”ì²˜ëŸ¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì„ ì¸ë¼ì¸ ë·°ë¼ê³  í•œë‹¤.
+-- ì¸ë¼ì¸ ë·°ëŠ” ë·°ì— ë“±ë¡ì´ ë˜ì§€ ì•ŠëŠ”ë‹¤. í•œ ë²ˆë§Œ ì‚¬ìš© ê°€ëŠ¥
 select empno, ename, sal, e.deptno, avg_sal from emp e,
 (select deptno, round(avg(sal)) avg_sal from emp group by deptno) v
 where e.deptno = v.deptno;
 ------------------------------------------------
---1. »ç¹ø,ÀÌ¸§,¾÷¹«,ÀÔ»çÀÏ,ºÎ¼­ÄÚµå¸¦ °¡Áø view emp_v1 »ý¼º
---2. »ç¹ø,ÀÌ¸§,¾÷¹«,±Þ¿©,¿¬ºÀ(=(±Þ¿©+comm)*12 ´Ü commÀÌ nullÀÌ¸é 0)À» °¡Áø emp_v2
---3. »ç¹ø,ÀÌ¸§,¾÷¹«,±Þ¿©,»ç¼ö¸¦ °¡Áø emp_v3
---4. »ç¹ø,ÀÌ¸§,¾÷¹«,ºÎ¼­ÄÚµå,ºÎ¼­¸í,±Ù¹«Áö¸¦ °¡Áø emp_dept_v1
---5. ºÎ¼­ÄÚµå,ÃÖ´ë±Þ¿©,ÃÖ¼Ò±Þ¿©,±Þ¿©ÇÕ°è¸¦ °¡Áø emp_v4
---6. ÀÚ±â¾÷¹« Æò±Õº¸´Ù ¸¹ÀÌ ¹Þ´Â »ç¶÷ÀÇ ÀÌ¸§,¾÷¹«,±Þ¿©,¾÷¹«Æò±Õ±Þ¿©¸¦ in_line view¸¦ »ç¿ëÇÏ¿© ÀÛ¼º
+--1. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ìž…ì‚¬ì¼,ë¶€ì„œì½”ë“œë¥¼ ê°€ì§„ view emp_v1 ìƒì„±
+--2. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì—°ë´‰(=(ê¸‰ì—¬+comm)*12 ë‹¨ commì´ nullì´ë©´ 0)ì„ ê°€ì§„ emp_v2
+--3. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì‚¬ìˆ˜ë¥¼ ê°€ì§„ emp_v3
+--4. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ë¶€ì„œì½”ë“œ,ë¶€ì„œëª…,ê·¼ë¬´ì§€ë¥¼ ê°€ì§„ emp_dept_v1
+--5. ë¶€ì„œì½”ë“œ,ìµœëŒ€ê¸‰ì—¬,ìµœì†Œê¸‰ì—¬,ê¸‰ì—¬í•©ê³„ë¥¼ ê°€ì§„ emp_v4
+--6. ìžê¸°ì—…ë¬´ í‰ê· ë³´ë‹¤ ë§Žì´ ë°›ëŠ” ì‚¬ëžŒì˜ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì—…ë¬´í‰ê· ê¸‰ì—¬ë¥¼ in_line viewë¥¼ ì‚¬ìš©í•˜ì—¬ ìž‘ì„±
 
 
---1. »ç¹ø,ÀÌ¸§,¾÷¹«,ÀÔ»çÀÏ,ºÎ¼­ÄÚµå¸¦ °¡Áø view emp_v1 »ý¼º
+--1. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ìž…ì‚¬ì¼,ë¶€ì„œì½”ë“œë¥¼ ê°€ì§„ view emp_v1 ìƒì„±
 create or replace view emp_v1 as select empno,ename,job,hiredate,deptno from emp;
 select * from emp_v1;
 
---2. »ç¹ø,ÀÌ¸§,¾÷¹«,±Þ¿©,¿¬ºÀ(=(±Þ¿©+comm)*12 ´Ü commÀÌ nullÀÌ¸é 0)À» °¡Áø emp_v2
+--2. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì—°ë´‰(=(ê¸‰ì—¬+comm)*12 ë‹¨ commì´ nullì´ë©´ 0)ì„ ê°€ì§„ emp_v2
 create or replace view emp_v2 as select empno,ename,job,sal,(sal+nvl(comm,0))*12 year_sal
 from emp;
 select * from emp_v2;
 
---3. »ç¹ø,ÀÌ¸§,¾÷¹«,±Þ¿©,»ç¼ö¸¦ °¡Áø emp_v3
+--3. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì‚¬ìˆ˜ë¥¼ ê°€ì§„ emp_v3
 create or replace view emp_v3 as select w.empno,w.ename worker,w.job,w.sal,m.ename manager from emp w, emp m
 where w.mgr = m.empno;
 select * from emp_v3;
 
---4. »ç¹ø,ÀÌ¸§,¾÷¹«,ºÎ¼­ÄÚµå,ºÎ¼­¸í,±Ù¹«Áö¸¦ °¡Áø emp_dept_v1
+--4. ì‚¬ë²ˆ,ì´ë¦„,ì—…ë¬´,ë¶€ì„œì½”ë“œ,ë¶€ì„œëª…,ê·¼ë¬´ì§€ë¥¼ ê°€ì§„ emp_dept_v1
 create or replace view emp_dept_v1 as select empno,ename,job,e.deptno,dname,loc from emp e, dept d
 where e.deptno = d.deptno;
 select * from emp_dept_v1;
 
---5. ºÎ¼­ÄÚµå,ÃÖ´ë±Þ¿©,ÃÖ¼Ò±Þ¿©,±Þ¿©ÇÕ°è¸¦ °¡Áø emp_v4
+--5. ë¶€ì„œì½”ë“œ,ìµœëŒ€ê¸‰ì—¬,ìµœì†Œê¸‰ì—¬,ê¸‰ì—¬í•©ê³„ë¥¼ ê°€ì§„ emp_v4
 --1)
 create or replace view emp_v4(deptno,max_sal,min_sal,sum_sal)
 as select deptno,max(sal),min(sal),sum(sal) from emp group by deptno;
@@ -153,39 +156,39 @@ select * from emp_v4;
 create or replace view emp_v4
 as select deptno,max(sal) max,min(sal) min,sum(sal) sum from emp group by deptno;
 
---6. ÀÚ±â¾÷¹« Æò±Õº¸´Ù ¸¹ÀÌ ¹Þ´Â »ç¶÷ÀÇ ÀÌ¸§,¾÷¹«,±Þ¿©,¾÷¹«Æò±Õ±Þ¿©¸¦ in_line view¸¦ »ç¿ëÇÏ¿© ÀÛ¼º
+--6. ìžê¸°ì—…ë¬´ í‰ê· ë³´ë‹¤ ë§Žì´ ë°›ëŠ” ì‚¬ëžŒì˜ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ì—…ë¬´í‰ê· ê¸‰ì—¬ë¥¼ in_line viewë¥¼ ì‚¬ìš©í•˜ì—¬ ìž‘ì„±
 select ename,e.job,sal,avg_job from emp e,(select job,round(avg(sal)) avg_job from emp
 group by job) a where e.job = a.job and e.sal > avg_job;
 ------------------------------------------------
 select rownum, ename, sal from emp;
--- rownum Å×ÀÌºí·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ÃßÃâÇÏ´Â ¼ø¼­
+-- rownum í…Œì´ë¸”ë¡œë¶€í„° ë°ì´í„°ë¥¼ ì¶”ì¶œí•˜ëŠ” ìˆœì„œ
 
--- Ã³À½ Å×ÀÌºí¿¡ Ãâ·ÂÇßÀ» ¶§ÀÇ rownum Á¤º¸¸¦ ±×´ë·Î °¡Áö°í ÀÖ´Ù.
+-- ì²˜ìŒ í…Œì´ë¸”ì— ì¶œë ¥í–ˆì„ ë•Œì˜ rownum ì •ë³´ë¥¼ ê·¸ëŒ€ë¡œ ê°€ì§€ê³  ìžˆë‹¤.
 select rownum, ename, sal from emp order by sal desc;
 
--- ÀÎ¶óÀÎ ºä, °ýÈ£ ¾È¿¡ ÀÖ´Â ÄÚµå´Â Å×ÀÌºí·Î Ãë±Þ
+-- ì¸ë¼ì¸ ë·°, ê´„í˜¸ ì•ˆì— ìžˆëŠ” ì½”ë“œëŠ” í…Œì´ë¸”ë¡œ ì·¨ê¸‰
 select rownum, ename, sal from (select ename, sal from emp order by sal desc);
--- rnÀº ÀÌÀü rownum
+-- rnì€ ì´ì „ rownum
 select rownum, rn, ename, sal from (select rownum rn, ename, sal from emp order by sal desc);
 ------------------------------------------------
--- topN ¾öÃ» Áß¿ä !!!!
+-- topN ì—„ì²­ ì¤‘ìš” !!!!
 
--- topN ±Þ¿©¸¦ ¸¹ÀÌ ¹Þ´Â ¼ø¼­·Î 5¸í
+-- topN ê¸‰ì—¬ë¥¼ ë§Žì´ ë°›ëŠ” ìˆœì„œë¡œ 5ëª…
 select rownum, rn, ename, sal from (select rownum rn, ename, sal from emp order by sal desc)
 where rownum <= 5;
 
--- topN ±Þ¿© 6 ~ 10¹øÂ°±îÁö Ãâ·Â
--- rownum: Å×ÀÌºíÀ» °¡Á®¿À´Â ¼ø¼­ÀÌ¹Ç·Î ¾Æ·¡ ÄÚµå´Â Ãâ·ÂµÇÁö ¾Ê´Â´Ù.
+-- topN ê¸‰ì—¬ 6 ~ 10ë²ˆì§¸ê¹Œì§€ ì¶œë ¥
+-- rownum: í…Œì´ë¸”ì„ ê°€ì ¸ì˜¤ëŠ” ìˆœì„œì´ë¯€ë¡œ ì•„ëž˜ ì½”ë“œëŠ” ì¶œë ¥ë˜ì§€ ì•ŠëŠ”ë‹¤.
 select rownum, rn, ename, sal from (select rownum rn, ename, sal from emp order by sal desc)
-where rownum between 6 and 10; -- Ãâ·ÂµÇÁö ¾Ê´Â´Ù.
--- ²ôÁý¾î³»´Â¼ø°£ rownumÀº ¹Ù²ï´Ù.
+where rownum between 6 and 10; -- ì¶œë ¥ë˜ì§€ ì•ŠëŠ”ë‹¤.
+-- ë„ì§‘ì–´ë‚´ëŠ”ìˆœê°„ rownumì€ ë°”ë€ë‹¤.
 
--- topN ±Þ¿© 6 ~ 10¹øÂ°±îÁö Ãâ·Â
+-- topN ê¸‰ì—¬ 6 ~ 10ë²ˆì§¸ê¹Œì§€ ì¶œë ¥
 select * from (select rownum rn, ename, sal from 
 (select rownum rn, ename, sal from emp order by sal desc))
 where rn between 6 and 10;
 
--- topN ±Þ¿© 6 ~ 10¹øÂ°±îÁö Ãâ·Â
+-- topN ê¸‰ì—¬ 6 ~ 10ë²ˆì§¸ê¹Œì§€ ì¶œë ¥
 select rownum, ename, sal from (select rownum rn, a.* from 
 (select ename, sal from emp order by sal desc) a)
 where rn between 6 and 10;
@@ -195,49 +198,49 @@ select rownum, rn, ename, sal from (select rownum rn, a.* from
 where rn between 6 and 10;
 ------------------------------------------------
 --37p
---1. EMP Å×ÀÌºí¿¡¼­ »ç¿ø ¹øÈ£(empno), ÀÌ¸§(ename), ¾÷¹«(job)¸¦ Æ÷ÇÔÇÏ´Â EMP_VIEW VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
---2. 1¹ø¿¡¼­ »ý¼ºÇÑ VIEW¸¦ ÀÌ¿ëÇÏ¿© 10¹ø ºÎ¼­ÀÇ ÀÚ·á¸¸ Á¶È¸ÇÏ¿©¶ó.
---3. EMP Å×ÀÌºí°ú ÀÎ¶óÀÎ ºä¸¦ »ç¿ëÇÏ¿© ±Þ¿©¸¦ ¸¹ÀÌ ¹Þ´Â ¼ø¼­´ë·Î 3¸í¸¸ Ãâ·ÂÇÏ´Â ºä(SAL_TOP5_VIEW)¸¦ ÀÛ¼ºÇÏ½Ã¿À.
+--1. EMP í…Œì´ë¸”ì—ì„œ ì‚¬ì› ë²ˆí˜¸(empno), ì´ë¦„(ename), ì—…ë¬´(job)ë¥¼ í¬í•¨í•˜ëŠ” EMP_VIEW VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
+--2. 1ë²ˆì—ì„œ ìƒì„±í•œ VIEWë¥¼ ì´ìš©í•˜ì—¬ 10ë²ˆ ë¶€ì„œì˜ ìžë£Œë§Œ ì¡°íšŒí•˜ì—¬ë¼.
+--3. EMP í…Œì´ë¸”ê³¼ ì¸ë¼ì¸ ë·°ë¥¼ ì‚¬ìš©í•˜ì—¬ ê¸‰ì—¬ë¥¼ ë§Žì´ ë°›ëŠ” ìˆœì„œëŒ€ë¡œ 3ëª…ë§Œ ì¶œë ¥í•˜ëŠ” ë·°(SAL_TOP5_VIEW)ë¥¼ ìž‘ì„±í•˜ì‹œì˜¤.
 
 
---1. EMP Å×ÀÌºí¿¡¼­ »ç¿ø ¹øÈ£(empno), ÀÌ¸§(ename), ¾÷¹«(job)¸¦ Æ÷ÇÔÇÏ´Â EMP_VIEW VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
+--1. EMP í…Œì´ë¸”ì—ì„œ ì‚¬ì› ë²ˆí˜¸(empno), ì´ë¦„(ename), ì—…ë¬´(job)ë¥¼ í¬í•¨í•˜ëŠ” EMP_VIEW VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
 create view EMP_VIEW as select empno, ename, job from emp;
 select * from EMP_VIEW;
 
---2. 1¹ø¿¡¼­ »ý¼ºÇÑ VIEW¸¦ ÀÌ¿ëÇÏ¿© 10¹ø ºÎ¼­ÀÇ ÀÚ·á¸¸ Á¶È¸ÇÏ¿©¶ó.
+--2. 1ë²ˆì—ì„œ ìƒì„±í•œ VIEWë¥¼ ì´ìš©í•˜ì—¬ 10ë²ˆ ë¶€ì„œì˜ ìžë£Œë§Œ ì¡°íšŒí•˜ì—¬ë¼.
 select * from emp_view v, emp e where v.empno = e.empno and e.deptno = 10;
 
---3. EMP Å×ÀÌºí°ú ÀÎ¶óÀÎ ºä¸¦ »ç¿ëÇÏ¿© ±Þ¿©¸¦ ¸¹ÀÌ ¹Þ´Â ¼ø¼­´ë·Î 3¸í¸¸ Ãâ·ÂÇÏ´Â ºä(SAL_TOP3_VIEW)¸¦ ÀÛ¼ºÇÏ½Ã¿À.
+--3. EMP í…Œì´ë¸”ê³¼ ì¸ë¼ì¸ ë·°ë¥¼ ì‚¬ìš©í•˜ì—¬ ê¸‰ì—¬ë¥¼ ë§Žì´ ë°›ëŠ” ìˆœì„œëŒ€ë¡œ 3ëª…ë§Œ ì¶œë ¥í•˜ëŠ” ë·°(SAL_TOP3_VIEW)ë¥¼ ìž‘ì„±í•˜ì‹œì˜¤.
 select * from (select * from emp order by sal desc) where rownum <= 3;
 ------------------------------------------------
 -- rank() 
 select empno, ename, sal, rank() over(order by sal desc) rank from emp;
 
--- where : table·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ÃßÃâÇÏ´Â Á¶°Ç 
+-- where : tableë¡œë¶€í„° ë°ì´í„°ë¥¼ ì¶”ì¶œí•˜ëŠ” ì¡°ê±´ 
 select empno, ename, sal, rank() over(order by sal desc) rank from emp
-where rank <= 5; -- ¿¡·¯ ¹ß»ý
+where rank <= 5; -- ì—ëŸ¬ ë°œìƒ
 
--- 'rank'¶ó´Â ÄÃ·³ÀÌ »ý°åÀ¸¹Ç·Î Ãâ·Â °¡´É
+-- 'rank'ë¼ëŠ” ì»¬ëŸ¼ì´ ìƒê²¼ìœ¼ë¯€ë¡œ ì¶œë ¥ ê°€ëŠ¥
 select * from (select empno, ename, sal, rank() over(order by sal desc) rank from emp)
 where rank <= 5;
 
--- ±Þ¿© 6 ~ 10
+-- ê¸‰ì—¬ 6 ~ 10
 select * from (select empno, ename, sal, rank() over(order by sal desc) rank from emp)
 where rank between 6 and 10;
 
--- 2µîÀÌ 2¸í, 10µîÀÌ 2¸í Ãâ·Â
+-- 2ë“±ì´ 2ëª…, 10ë“±ì´ 2ëª… ì¶œë ¥
 select empno, ename, sal, rank() over(order by sal desc) rank from emp;
 
--- dense_rank() ÇÔ¼ö 
+-- dense_rank() í•¨ìˆ˜ 
 select empno, ename, sal, rank() over(order by sal desc) rank,
 dense_rank() over(order by sal desc) dense from emp;
 
--- row_number() ÇÔ¼ö : ¼ø¼­´ë·Î
+-- row_number() í•¨ìˆ˜ : ìˆœì„œëŒ€ë¡œ
 select empno, ename, sal, rank() over(order by sal desc) rank,
 dense_rank() over(order by sal desc) dense, 
 row_number() over(order by sal desc) rn from emp;
 
--- partition by : °¢ ºÎ¼­¿¡¼­ ¸î µîÀÎÁö?
+-- partition by : ê° ë¶€ì„œì—ì„œ ëª‡ ë“±ì¸ì§€?
 select empno, ename, sal, rank() over(order by sal desc) rank,
 dense_rank() over(order by sal desc) dense, 
 row_number() over(order by sal desc) rn,
@@ -247,54 +250,54 @@ select empno, ename, sal, rank() over(partition by deptno order by sal desc) par
 deptno from emp;
 
 -----------------------------------
--- WITH ÀÌ°Å º°·Î ¾È¾¸
+-- WITH ì´ê±° ë³„ë¡œ ì•ˆì”€
 WITH summary as (SELECT dname, sum(sal) dept_total FROM emp, dept
 WHERE emp.deptno = dept.deptno GROUP BY dname)
 SELECT dname, dept_total FROM summary WHERE dept_total > (select sum(dept_total) * 1/3 from summary)
 ORDER BY dept_total desc;
 -----------------------------------
 --p44
---1. EMP Å×ÀÌºí¿¡¼­ »ç¿ø ¹øÈ£,ÀÌ¸§,¾÷¹«, ºÎ¼­ÄÚµå¸¦ Æ÷ÇÔÇÏ´Â EMP_VIEW VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
---2. 1¹ø¿¡¼­ »ý¼ºÇÑ VIEW¸¦ ÀÌ¿ëÇÏ¿© 10¹ø ºÎ¼­ÀÇ ÀÚ·á¸¸ Á¶È¸ÇÏ¿©¶ó.
---3. EMP Å×ÀÌºí°ú DEPT Å×ÀÌºíÀ» ÀÌ¿ëÇÏ¿© ÀÌ¸§,¾÷¹«,±Þ¿©,ºÎ¼­¸í,À§Ä¡¸¦ Æ÷ÇÔÇÏ´Â EMP_DEPT_NAMEÀÌ¶ó´Â VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
+--1. EMP í…Œì´ë¸”ì—ì„œ ì‚¬ì› ë²ˆí˜¸,ì´ë¦„,ì—…ë¬´, ë¶€ì„œì½”ë“œë¥¼ í¬í•¨í•˜ëŠ” EMP_VIEW VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
+--2. 1ë²ˆì—ì„œ ìƒì„±í•œ VIEWë¥¼ ì´ìš©í•˜ì—¬ 10ë²ˆ ë¶€ì„œì˜ ìžë£Œë§Œ ì¡°íšŒí•˜ì—¬ë¼.
+--3. EMP í…Œì´ë¸”ê³¼ DEPT í…Œì´ë¸”ì„ ì´ìš©í•˜ì—¬ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ë¶€ì„œëª…,ìœ„ì¹˜ë¥¼ í¬í•¨í•˜ëŠ” EMP_DEPT_NAMEì´ë¼ëŠ” VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
 
 
---1. EMP Å×ÀÌºí¿¡¼­ »ç¿ø ¹øÈ£,ÀÌ¸§,¾÷¹«,ºÎ¼­ÄÚµå¸¦ Æ÷ÇÔÇÏ´Â EMP_VIEW VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
+--1. EMP í…Œì´ë¸”ì—ì„œ ì‚¬ì› ë²ˆí˜¸,ì´ë¦„,ì—…ë¬´,ë¶€ì„œì½”ë“œë¥¼ í¬í•¨í•˜ëŠ” EMP_VIEW VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
 create or replace view EMP_VIEW as select empno, ename, job, deptno from emp;
 select * from EMP_VIEW;
 
---2. 1¹ø¿¡¼­ »ý¼ºÇÑ VIEW¸¦ ÀÌ¿ëÇÏ¿© 10¹ø ºÎ¼­ÀÇ ÀÚ·á¸¸ Á¶È¸ÇÏ¿©¶ó.
+--2. 1ë²ˆì—ì„œ ìƒì„±í•œ VIEWë¥¼ ì´ìš©í•˜ì—¬ 10ë²ˆ ë¶€ì„œì˜ ìžë£Œë§Œ ì¡°íšŒí•˜ì—¬ë¼.
 select * from EMP_VIEW where deptno = 10;
 
---3. EMP Å×ÀÌºí°ú DEPT Å×ÀÌºíÀ» ÀÌ¿ëÇÏ¿© ÀÌ¸§,¾÷¹«,±Þ¿©,ºÎ¼­¸í,À§Ä¡¸¦ Æ÷ÇÔÇÏ´Â EMP_DEPT_NAMEÀÌ¶ó´Â VIEW¸¦ »ý¼ºÇÏ¿©¶ó.
+--3. EMP í…Œì´ë¸”ê³¼ DEPT í…Œì´ë¸”ì„ ì´ìš©í•˜ì—¬ ì´ë¦„,ì—…ë¬´,ê¸‰ì—¬,ë¶€ì„œëª…,ìœ„ì¹˜ë¥¼ í¬í•¨í•˜ëŠ” EMP_DEPT_NAMEì´ë¼ëŠ” VIEWë¥¼ ìƒì„±í•˜ì—¬ë¼.
 create or replace view EMP_DEPT_NAME as select ename,job,sal,dname,loc from emp e, dept d
 where e.deptno = d.deptno;
 -----------------------------------
 --p45
---1. ºÎ¼­¸í, »ç¿ø¸íÀ» Ãâ·ÂÇÏ´Â dname_ename_view »ý¼º
---2. »ç¿ø¸í, »ç¼ö¸í worker_manager_view »ý¼º
---3. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼øÀ¸·Î Á¤·Ä (ÃÖ±Ù ÀÔ»ç)
---4. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼ø 5¸í
---5. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼ø 6¸í ~ 10¸í
+--1. ë¶€ì„œëª…, ì‚¬ì›ëª…ì„ ì¶œë ¥í•˜ëŠ” dname_ename_view ìƒì„±
+--2. ì‚¬ì›ëª…, ì‚¬ìˆ˜ëª… worker_manager_view ìƒì„±
+--3. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœìœ¼ë¡œ ì •ë ¬ (ìµœê·¼ ìž…ì‚¬)
+--4. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœ 5ëª…
+--5. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœ 6ëª… ~ 10ëª…
 
 
---1. ºÎ¼­¸í, »ç¿ø¸íÀ» Ãâ·ÂÇÏ´Â dname_ename_view »ý¼º
+--1. ë¶€ì„œëª…, ì‚¬ì›ëª…ì„ ì¶œë ¥í•˜ëŠ” dname_ename_view ìƒì„±
 create view dname_ename_view as select dname, ename from emp e, dept d
 where e.deptno = d.deptno;
 select * from dname_ename_view;
 
---2. »ç¿ø¸í, »ç¼ö¸í worker_manager_view »ý¼º
-create view worker_manager_view as select e1.ename »ç¿ø, e2.ename °ü¸®ÀÚ
+--2. ì‚¬ì›ëª…, ì‚¬ìˆ˜ëª… worker_manager_view ìƒì„±
+create view worker_manager_view as select e1.ename ì‚¬ì›, e2.ename ê´€ë¦¬ìž
 from emp e1, emp e2 where e1.mgr = e2.empno;
 
---3. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼øÀ¸·Î Á¤·Ä (ÃÖ±Ù ÀÔ»ç)
+--3. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœìœ¼ë¡œ ì •ë ¬ (ìµœê·¼ ìž…ì‚¬)
 select empno, ename, hiredate from emp order by hiredate desc;
 
---4. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼ø 5¸í
+--4. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœ 5ëª…
 select empno, ename, hiredate from (select empno, ename, hiredate from emp order by hiredate desc)
 where rownum <= 5;
 
---5. »ç¹ø, »ç¿ø¸í, ÀÔ»çÀÏ  ÀÔ»çÀÏÀÌ ´ÊÀº ¼ø 6¸í ~ 10¸í
+--5. ì‚¬ë²ˆ, ì‚¬ì›ëª…, ìž…ì‚¬ì¼  ìž…ì‚¬ì¼ì´ ëŠ¦ì€ ìˆœ 6ëª… ~ 10ëª…
 select * from (select rownum rn, a.* from (select * from emp order by hiredate desc) a)
 where rn between 6 and 10;
 -----------------------------------
@@ -302,53 +305,53 @@ drop view emp_v1;
 
 drop table sawon;
 
--- ½ÃÄö½º
--- sawon_seq.nextval 1ºÎÅÍ ½ÃÀÛÇØ¼­ 1¾¿ Áõ°¡
+-- ì‹œí€€ìŠ¤
+-- sawon_seq.nextval 1ë¶€í„° ì‹œìž‘í•´ì„œ 1ì”© ì¦ê°€
 create table sawon (num number(5) primary key, val varchar2(20));
 create sequence sawon_seq;
-insert into sawon values(sawon_seq.nextval,'¾È³çÇÏ¼¼¿ä');
-insert into sawon values(sawon_seq.nextval,'¹Ý°©½À´Ï´Ù');
-insert into sawon values(sawon_seq.nextval,'¹Ý°¡¿ö¿ä');
+insert into sawon values(sawon_seq.nextval,'ì•ˆë…•í•˜ì„¸ìš”');
+insert into sawon values(sawon_seq.nextval,'ë°˜ê°‘ìŠµë‹ˆë‹¤');
+insert into sawon values(sawon_seq.nextval,'ë°˜ê°€ì›Œìš”');
 select * from sawon;
 
--- ´Ù¸¥ DB¿¡¼­´Â auto_increment¸¦ »ç¿ëÇÏ¸é 1ºÎÅÍ 1¾¿ Áõ°¡
--- increment by : Áõ°¡ÇÏ´Â Å©±â º¯°æ °¡´É, start with: ½ÃÀÛÇÏ´Â ¹øÈ£ ÀÓÀÇ·Î Á¤ÇÏ±â
+-- ë‹¤ë¥¸ DBì—ì„œëŠ” auto_incrementë¥¼ ì‚¬ìš©í•˜ë©´ 1ë¶€í„° 1ì”© ì¦ê°€
+-- increment by : ì¦ê°€í•˜ëŠ” í¬ê¸° ë³€ê²½ ê°€ëŠ¥, start with: ì‹œìž‘í•˜ëŠ” ë²ˆí˜¸ ìž„ì˜ë¡œ ì •í•˜ê¸°
 create sequence sawon_seq2 increment by 2 start with 11;
-insert into sawon values(sawon_seq2.nextval,'¾È³ç');
-insert into sawon values(sawon_seq2.nextval,'¤¾¤·');
-insert into sawon values(sawon_seq2.nextval,'¤»¤»');
+insert into sawon values(sawon_seq2.nextval,'ì•ˆë…•');
+insert into sawon values(sawon_seq2.nextval,'ã…Žã…‡');
+insert into sawon values(sawon_seq2.nextval,'ã…‹ã…‹');
 select * from sawon;
 
--- currval: ÇöÀç °ª, from dual?
+-- currval: í˜„ìž¬ ê°’, from dual?
 select sawon_seq.currval from dual;
 
 alter sequence sawon_seq increment by 2;
-insert into sawon values(sawon_seq.nextval,'ÇìÇì');
+insert into sawon values(sawon_seq.nextval,'í—¤í—¤');
 select * from sawon;
 
--- ½ÃÄö½º Á¦°Å
+-- ì‹œí€€ìŠ¤ ì œê±°
 drop sequence sawon_seq;
 -----------------------------------
 --11.View,Sequence,Index.pdf 65p
 
---1. ½ÃÀÛ °ªÀÌ 1ÀÌ°í 1¾¿ Áõ°¡ÇÏ°í, ÃÖ´ñ°ªÀÌ 100000ÀÌ µÇ´Â ½ÃÄö½º EMP_SEQ »ý¼ºÇÕ´Ï´Ù
+--1. ì‹œìž‘ ê°’ì´ 1ì´ê³  1ì”© ì¦ê°€í•˜ê³ , ìµœëŒ“ê°’ì´ 100000ì´ ë˜ëŠ” ì‹œí€€ìŠ¤ EMP_SEQ ìƒì„±í•©ë‹ˆë‹¤
 create sequence emp_seq start with 1 increment by 1 maxvalue 100000;
 
---2. ÀÌ¹ø¿¡´Â »ý¼ºµÈ ½ÃÄö½º¸¦ »ç¿ëÇÏ±â À§ÇØ¼­ »ç¿ø ¹øÈ£¸¦ ±âº» Å°·Î ¼³Á¤ÇÏ¿© EMP01¶õ ÀÌ¸§À¸·Î »õ·Ó°Ô »ý¼ºÇÕ½Ã´Ù.
-drop table emp01; -- ÀÌ¹Ì ÀÖ´ø Å×ÀÌºí Áö¿ì±â
+--2. ì´ë²ˆì—ëŠ” ìƒì„±ëœ ì‹œí€€ìŠ¤ë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•´ì„œ ì‚¬ì› ë²ˆí˜¸ë¥¼ ê¸°ë³¸ í‚¤ë¡œ ì„¤ì •í•˜ì—¬ EMP01ëž€ ì´ë¦„ìœ¼ë¡œ ìƒˆë¡­ê²Œ ìƒì„±í•©ì‹œë‹¤.
+drop table emp01; -- ì´ë¯¸ ìžˆë˜ í…Œì´ë¸” ì§€ìš°ê¸°
 create table emp01 (
     empno number(4) primary key,
     ename varchar(10),
     hiredate date);
 select * from emp01;
 
---3. »ç¿ø ¹øÈ£¸¦ ÀúÀåÇÏ´Â EMPNO ÄÃ·³Àº ±âº» Å°·Î ¼³Á¤ÇÏ¿´À¸¹Ç·Î Áßº¹µÈ °ªÀ» °¡Áú ¼ö ¾ø½À´Ï´Ù. 
---´ÙÀ½Àº »ý¼ºÇÑ EMP_SEQ ½ÃÄö½º·ÎºÎÅÍ »ç¿ø¹øÈ£¸¦ ÀÚµ¿À¸·Î ÇÒ´ç ¹Þ¾Æ µ¥ÀÌÅÍ¸¦ Ãß°¡ÇÏ´Â ¹®ÀåÀÔ´Ï´Ù. 
+--3. ì‚¬ì› ë²ˆí˜¸ë¥¼ ì €ìž¥í•˜ëŠ” EMPNO ì»¬ëŸ¼ì€ ê¸°ë³¸ í‚¤ë¡œ ì„¤ì •í•˜ì˜€ìœ¼ë¯€ë¡œ ì¤‘ë³µëœ ê°’ì„ ê°€ì§ˆ ìˆ˜ ì—†ìŠµë‹ˆë‹¤. 
+--ë‹¤ìŒì€ ìƒì„±í•œ EMP_SEQ ì‹œí€€ìŠ¤ë¡œë¶€í„° ì‚¬ì›ë²ˆí˜¸ë¥¼ ìžë™ìœ¼ë¡œ í• ë‹¹ ë°›ì•„ ë°ì´í„°ë¥¼ ì¶”ê°€í•˜ëŠ” ë¬¸ìž¥ìž…ë‹ˆë‹¤. 
 insert into emp01 values(emp_seq.nextval, 'JULIA', sysdate);
 -----------------------------------
 -- 72p 
---5. ºÎ¼­ ¹øÈ£¸¦ »ý¼ºÇÏ´Â ½ÃÄö½º °´Ã¼¸¦ »ý¼ºÇÏ¿© ½ÃÄö½º °´Ã¼¸¦ ÀÌ¿ëÇÏ¿© ºÎ¼­ ¹øÈ£¸¦ ÀÚµ¿ »ý¼ºÇÏµµ·Ï ÇØ º¾½Ã´Ù. 
---ÀÌ ¹®Á¦¸¦ Ç®±â À§ÇØ¼­ ´ÙÀ½°ú °°ÀÌ ºÎ¼­ Å×ÀÌºíÀ» »ý¼ºÇÕ´Ï´Ù.
+--5. ë¶€ì„œ ë²ˆí˜¸ë¥¼ ìƒì„±í•˜ëŠ” ì‹œí€€ìŠ¤ ê°ì²´ë¥¼ ìƒì„±í•˜ì—¬ ì‹œí€€ìŠ¤ ê°ì²´ë¥¼ ì´ìš©í•˜ì—¬ ë¶€ì„œ ë²ˆí˜¸ë¥¼ ìžë™ ìƒì„±í•˜ë„ë¡ í•´ ë´…ì‹œë‹¤. 
+--ì´ ë¬¸ì œë¥¼ í’€ê¸° ìœ„í•´ì„œ ë‹¤ìŒê³¼ ê°™ì´ ë¶€ì„œ í…Œì´ë¸”ì„ ìƒì„±í•©ë‹ˆë‹¤.
 
 create table dept_example(
     deptno number(4) primary key,
@@ -357,38 +360,38 @@ create table dept_example(
     
 desc dept_example;    
 
---5.1 DEPTNO ÄÃ·³¿¡ À¯ÀÏÇÑ °ªÀ» °¡Áú ¼ö ÀÖµµ·Ï ½ÃÄö½º °´Ã¼ »ý¼º(½ÃÄö½º ÀÌ¸§ : DEPT_EXAMPLE_SEQ)ÇØ º¾½Ã´Ù
+--5.1 DEPTNO ì»¬ëŸ¼ì— ìœ ì¼í•œ ê°’ì„ ê°€ì§ˆ ìˆ˜ ìžˆë„ë¡ ì‹œí€€ìŠ¤ ê°ì²´ ìƒì„±(ì‹œí€€ìŠ¤ ì´ë¦„ : DEPT_EXAMPLE_SEQ)í•´ ë´…ì‹œë‹¤
 create sequence dept_example_seq start with 10 increment by 10;
 
---5.2 »õ·Î¿î ·Î¿ì¸¦ Ãß°¡ÇÒ ¶§¸¶´Ù ½ÃÄö½º¿¡ ÀÇÇØ¼­ ´ÙÀ½°ú °°ÀÌ ºÎ¼­¹øÈ£°¡ ÀÚµ¿ ºÎ¿©µÇµµ·Ï ÇØ º¾½Ã´Ù.
-insert into dept_example values (dept_example_seq.nextval,'ÀÎ»ç°ú','¼­¿ï');
-insert into dept_example values (dept_example_seq.nextval,'±â¼úÆÀ','ÀÎÃµ');
-select * from dept_example;  -- ÀÌ ¹®Á¦ ´Ù½Ã Á¤¸®ÇØ¾ßÇÔ. pdf È®ÀÎ
+--5.2 ìƒˆë¡œìš´ ë¡œìš°ë¥¼ ì¶”ê°€í•  ë•Œë§ˆë‹¤ ì‹œí€€ìŠ¤ì— ì˜í•´ì„œ ë‹¤ìŒê³¼ ê°™ì´ ë¶€ì„œë²ˆí˜¸ê°€ ìžë™ ë¶€ì—¬ë˜ë„ë¡ í•´ ë´…ì‹œë‹¤.
+insert into dept_example values (dept_example_seq.nextval,'ì¸ì‚¬ê³¼','ì„œìš¸');
+insert into dept_example values (dept_example_seq.nextval,'ê¸°ìˆ íŒ€','ì¸ì²œ');
+select * from dept_example;  -- ì´ ë¬¸ì œ ë‹¤ì‹œ ì •ë¦¬í•´ì•¼í•¨. pdf í™•ì¸
 -----------------------------------
--- create index index¸í on table¸í (ÄÃ·³,...);
--- drop index index¸í
+-- create index indexëª… on tableëª… (ì»¬ëŸ¼,...);
+-- drop index indexëª…
 
 -- 87p
---Å×ÀÌºí EMP01ÀÇ ÄÃ·³ Áß¿¡¼­ ÀÌ¸§(ENAME)¿¡ ´ëÇØ¼­ ÀÎµ¦½º¸¦ »ý¼ºÇØº¾½Ã´Ù. 
+--í…Œì´ë¸” EMP01ì˜ ì»¬ëŸ¼ ì¤‘ì—ì„œ ì´ë¦„(ENAME)ì— ëŒ€í•´ì„œ ì¸ë±ìŠ¤ë¥¼ ìƒì„±í•´ë´…ì‹œë‹¤. 
 create index idx_emp01_name on emp01(ename);
 
 select * from emp01;
 
---EMP01 Å×ÀÌºíÀÇ IDX_EMP01_ENAME¸¸ »ç¿ëÀÚ°¡ ÀÎµ¦½º¸¦ »ý¼ºÇÑ °ÍÀÔ´Ï´Ù. ÀÌ¸¦ Á¦°ÅÇØ º¾½Ã´Ù. »ý¼ºµÈ ÀÎµ¦½º °´Ã¼¸¦
---Á¦°ÅÇÏ±â À§ÇØ¼­´Â DROP INDEX ¹®À» »ç¿ëÇÕ´Ï´Ù
+--EMP01 í…Œì´ë¸”ì˜ IDX_EMP01_ENAMEë§Œ ì‚¬ìš©ìžê°€ ì¸ë±ìŠ¤ë¥¼ ìƒì„±í•œ ê²ƒìž…ë‹ˆë‹¤. ì´ë¥¼ ì œê±°í•´ ë´…ì‹œë‹¤. ìƒì„±ëœ ì¸ë±ìŠ¤ ê°ì²´ë¥¼
+--ì œê±°í•˜ê¸° ìœ„í•´ì„œëŠ” DROP INDEX ë¬¸ì„ ì‚¬ìš©í•©ë‹ˆë‹¤
 drop index idx_emp01_name;
 -----------------------------------
 -- 91p
--- EMP Å×ÀÌºí¿¡¼­ ÀÌ¸§À» °¡Áö°í INDEX(emp_ename_indx)¸¦ »ý¼º
+-- EMP í…Œì´ë¸”ì—ì„œ ì´ë¦„ì„ ê°€ì§€ê³  INDEX(emp_ename_indx)ë¥¼ ìƒì„±
 create index emp_ename_indx on emp(ename);
 
 ---------------------------------
--- µ¿ÀÇ¾î
+-- ë™ì˜ì–´
 create synonym e for emp;
 select * from e;
 
--- »ç¿ëÀÚ Ãß°¡
--- create user user_id(°èÁ¤) identified by ¾ÏÈ£
+-- ì‚¬ìš©ìž ì¶”ê°€
+-- create user user_id(ê³„ì •) identified by ì•”í˜¸
 
 create user c##kim identified by k1;
 grant create session to c##kim;
@@ -401,40 +404,40 @@ grant update (dname, loc) on c##scott.dept to c##kim;
 ---------------------------------
 -- 57p
 drop user c##kim;
--- ³ªÁß¿¡ ¼³Á¤ÇÏ±â
+-- ë‚˜ì¤‘ì— ì„¤ì •í•˜ê¸°
 
--- 1. °èÁ¤ÀÌ KIM, ¾ÏÈ£°¡ LIONÀÎ »ç¿ëÀÚ °èÁ¤À» ÀÛ¼ºÇÏ½Ã¿À.
+-- 1. ê³„ì •ì´ KIM, ì•”í˜¸ê°€ LIONì¸ ì‚¬ìš©ìž ê³„ì •ì„ ìž‘ì„±í•˜ì‹œì˜¤.
 create user c##kim identified by lion;
 
--- 2. KIM¿¡°Ô CREATE TABLE°ú CREATE SESSION ±ÇÇÑÀ» ºÎ¿©ÇÏ½Ã¿À.
+-- 2. KIMì—ê²Œ CREATE TABLEê³¼ CREATE SESSION ê¶Œí•œì„ ë¶€ì—¬í•˜ì‹œì˜¤.
 grant create table, create session to c##kim;
 
--- 3. KIM¿¡°Ô SCOTTÀÇ DEPT, EMP Å×ÀÌºíÀÇ SELECT ±ÇÇÑÀ» ºÎ¿©ÇÏ½Ã¿À.
+-- 3. KIMì—ê²Œ SCOTTì˜ DEPT, EMP í…Œì´ë¸”ì˜ SELECT ê¶Œí•œì„ ë¶€ì—¬í•˜ì‹œì˜¤.
 grant select on c##scott.dept to c##kim;
 grant select on c##scott.emp to c##kim;
 
--- 4. KIM¿¡°Ô SCOTTÀÇ EMP Å×ÀÌºí¿¡ SAL,COMM ÄÃ·³À» UPDATEÇÒ ¼ö ÀÖ´Â ±ÇÇÑÀ» ºÎ¿©ÇÏ½Ã¿À.
+-- 4. KIMì—ê²Œ SCOTTì˜ EMP í…Œì´ë¸”ì— SAL,COMM ì»¬ëŸ¼ì„ UPDATEí•  ìˆ˜ ìžˆëŠ” ê¶Œí•œì„ ë¶€ì—¬í•˜ì‹œì˜¤.
 grant update (sal,comm) on c##scott.emp to c##kim;
 
--- 5. KIM¿¡°Ô ºÎ¿©µÈ EMP Å×ÀÌºíÀÇ UPDATE ±ÇÇÑÀ» È¸¼öÇÏ½Ã¿À.
+-- 5. KIMì—ê²Œ ë¶€ì—¬ëœ EMP í…Œì´ë¸”ì˜ UPDATE ê¶Œí•œì„ íšŒìˆ˜í•˜ì‹œì˜¤.
 revoke update on c##scott.emp from c##kim;
 ---------------------------------
 -- 58p
---1. »ç¿ëÀÚ´Â KSHÀÌ°í ÆÐ½º¿öµå´Â KIMÀÎ »ç¿ëÀÚ¸¦ »ý¼ºÇÏ¿©¶ó.
+--1. ì‚¬ìš©ìžëŠ” KSHì´ê³  íŒ¨ìŠ¤ì›Œë“œëŠ” KIMì¸ ì‚¬ìš©ìžë¥¼ ìƒì„±í•˜ì—¬ë¼.
 create user c##ksh identified by c##kim;
 
---2. »ý¼ºµÈ »ç¿ëÀÚ¿¡°Ô CONNECT¿Í RESOURCE±ÇÇÑÀ» ºÎ¿©ÇÏ¿©¶ó.
+--2. ìƒì„±ëœ ì‚¬ìš©ìžì—ê²Œ CONNECTì™€ RESOURCEê¶Œí•œì„ ë¶€ì—¬í•˜ì—¬ë¼.
 grant connect, resource to c##ksh;
 
---3. ºÎ¿©ÇÑ ±ÇÇÑÀ» Ãë¼ÒÇÏ°í KSH»ç¿ëÀÚ¸¦ »èÁ¦ÇÏ¿©¶ó.
+--3. ë¶€ì—¬í•œ ê¶Œí•œì„ ì·¨ì†Œí•˜ê³  KSHì‚¬ìš©ìžë¥¼ ì‚­ì œí•˜ì—¬ë¼.
 revoke connect, resource from c##ksh;
 drop user c##ksh;
 
 -----------------------------
 select * from dept;
 select * from emp;
-drop table emp; -- ÀÚ½Ä
-drop table dept; -- ºÎ¸ð
+drop table emp; -- ìžì‹
+drop table dept; -- ë¶€ëª¨
 
- select w.ename Á÷¿ø, m.ename °ü¸®ÀÚ, dname ºÎ¼­¸í from emp w, emp m, dept d where w.deptno = d.deptno and w.mgr = m.empno;
+ select w.ename ì§ì›, m.ename ê´€ë¦¬ìž, dname ë¶€ì„œëª… from emp w, emp m, dept d where w.deptno = d.deptno and w.mgr = m.empno;
 select ename, job, dname from emp e, dept d where e.deptno = d.deptno;
