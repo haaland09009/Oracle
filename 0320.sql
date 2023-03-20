@@ -63,7 +63,7 @@ select * from emp_v2;
 
 -- 본인 부서 평균보다 급여를 많이 받는 사람의 이름, 급여, 부서코드, 부서급여 평균
 -- avg_sal은 위에 emp_v2 뷰에서 설정한 컬럼명이다
-select ename, sal, e.deptno, avg_sal from emp e, emp_v2 v where e.deptno = v.deptno;
+select ename,sal,e.deptno,avg_sal from emp e, emp_v2 v where sal > avg_sal and e.deptno = v.deptno;
 ------------------------------------------------
 
 select * from emp03; -- 나중에 로제 컬럼 추가해야함. 0317
