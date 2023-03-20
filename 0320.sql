@@ -1,12 +1,11 @@
 
-create view emp_v1 as select empno, ename, job, deptno from emp where deptno = 10;
+ create view emp_v1 as select empno, ename, job, deptno from emp where deptno = 10;
 
 -- view : 실제 데이터는 없지만 select문을 실행하여 데이터를 가져와서 진짜 테이블처럼 사용
 
 -- view : 실제 테이블은 없지만 있는 것처럼 사용
 select * from emp_v1;
--- 아래 소스코드는 에러 발생
-create view emp_v1 as select empno, ename, job, e.deptno, dname from emp e, dept d where e.deptno = d.deptno;
+
 
 
 -- 뷰 생성
