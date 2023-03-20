@@ -1,0 +1,1 @@
+create user kim identified by k1;
