@@ -167,7 +167,7 @@ select empno, ename, job, e.deptno, dname, loc from emp e, dept d;
 --6. 이름, 업무, 부서명, 급여, comm, 연봉(=(급여+comm)*12 comm이 null이면 0) 연봉 큰 순
 --7. 사번, 이름, 업무, 부서코드, 부서명, 급여  급여가 1000 ~ 3000 사이 부서명 순, 급여 큰 순
 --8. 사번, 이름, 급여, 커미션, 연봉(comm이 null이면 0), 부서코드, 부서명, 근무지, 부서코드 순, 급여작은 순
---9. 사번, 이름, 업무, 급여, 부서명, 근무지  부셔명이 reserach인 경우 급여 큰 순
+--9. 사번, 이름, 업무, 급여, 부서명, 근무지  부서명이 reserach인 경우 급여 큰 순
 
 --1. 사번, 이름, 업무, 입사일, 부서명
 select empno, ename, job, hiredate, dname from emp e, dept d where e.deptno = d.deptno;
@@ -195,6 +195,6 @@ order by dname, sal desc;
 select empno, ename, sal, comm, (sal+nvl(comm, 0))*12 연봉, e.deptno, dname, loc from emp e, dept d where e.deptno = d.deptno
 order by e.deptno, sal;
 
---9. 사번, 이름, 업무, 급여, 부서명, 근무지  부셔명이 reserach인 경우 급여 큰 순
+--9. 사번, 이름, 업무, 급여, 부서명, 근무지  부서명이 reserach인 경우 급여 큰 순
 select empno, ename, job, sal, dname, loc from emp e, dept d where e.deptno = d.deptno and dname = 'research' order by sal desc;
 
